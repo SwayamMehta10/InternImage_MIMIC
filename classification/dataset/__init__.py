@@ -5,3 +5,4 @@
 # --------------------------------------------------------
 
 from .build import build_loader, build_loader2
+from .mimic_cxr import MIMICCXRDataset

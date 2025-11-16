@@ -30,6 +30,7 @@ from utils import NativeScalerWithGradNormCount as NativeScaler
 from utils import (auto_resume_helper, get_grad_norm, load_checkpoint,
                    load_ema_checkpoint, load_pretrained, reduce_tensor,
                    save_checkpoint)
+from utils_multilabel import validate_multilabel, evaluate_test_set
 
 try:
     from apex import amp
@@ -240,7 +241,11 @@ def main(config):
         if not config.EVAL_MODE else None
 
     # build criterion
-    if config.AUG.MIXUP > 0.:
+    if config.DATA.DATASET == 'mimic_cxr':
+        # Multi-label classification: use BCEWithLogitsLoss
+        criterion = torch.nn.BCEWithLogitsLoss()
+        logger.info('Using BCEWithLogitsLoss for multi-label classification')
+    elif config.AUG.MIXUP > 0.:
         # smoothing is handled with mixup label transform
         criterion = SoftTargetCrossEntropy()
     elif config.MODEL.LABEL_SMOOTHING > 0.:
@@ -273,17 +278,29 @@ def main(config):
         max_accuracy = load_checkpoint(config, model_without_ddp, optimizer,
                                        lr_scheduler, loss_scaler, logger)
         if data_loader_val is not None:
-            acc1, acc5, loss = validate(config, data_loader_val, model)
-            logger.info(
-                f'Accuracy of the network on the {len(dataset_val)} test images: {acc1:.1f}%'
-            )
+            if config.DATA.DATASET == 'mimic_cxr':
+                auc, loss, _ = validate_multilabel(config, data_loader_val, model, logger=logger)
+                logger.info(
+                    f'AUC-ROC of the network on the {len(dataset_val)} val images: {auc:.4f}'
+                )
+            else:
+                acc1, acc5, loss = validate(config, data_loader_val, model)
+                logger.info(
+                    f'Accuracy of the network on the {len(dataset_val)} test images: {acc1:.1f}%'
+                )
     elif config.MODEL.PRETRAINED:
         load_pretrained(config, model_without_ddp, logger)
         if data_loader_val is not None:
-            acc1, acc5, loss = validate(config, data_loader_val, model)
-            logger.info(
-                f'Accuracy of the network on the {len(dataset_val)} test images: {acc1:.1f}%'
-            )
+            if config.DATA.DATASET == 'mimic_cxr':
+                auc, loss, _ = validate_multilabel(config, data_loader_val, model, logger=logger)
+                logger.info(
+                    f'AUC-ROC of the network on the {len(dataset_val)} val images: {auc:.4f}'
+                )
+            else:
+                acc1, acc5, loss = validate(config, data_loader_val, model)
+                logger.info(
+                    f'Accuracy of the network on the {len(dataset_val)} test images: {acc1:.1f}%'
+                )
 
     # evaluate EMA
     model_ema = None
@@ -293,10 +310,16 @@ def main(config):
         print('Using EMA with decay = %.8f' % config.TRAIN.EMA.DECAY)
         if config.MODEL.RESUME:
             load_ema_checkpoint(config, model_ema, logger)
-            acc1, acc5, loss = validate(config, data_loader_val, model_ema.ema)
-            logger.info(
-                f'Accuracy of the ema network on the {len(dataset_val)} test images: {acc1:.1f}%'
-            )
+            if config.DATA.DATASET == 'mimic_cxr':
+                auc, loss, _ = validate_multilabel(config, data_loader_val, model_ema.ema, logger=logger)
+                logger.info(
+                    f'AUC-ROC of the ema network on the {len(dataset_val)} val images: {auc:.4f}'
+                )
+            else:
+                acc1, acc5, loss = validate(config, data_loader_val, model_ema.ema)
+                logger.info(
+                    f'Accuracy of the ema network on the {len(dataset_val)} test images: {acc1:.1f}%'
+                )
 
     if config.THROUGHPUT_MODE:
         throughput(data_loader_val, model, logger)
@@ -336,31 +359,13 @@ def main(config):
                             logger,
                             model_ema=model_ema)
         if data_loader_val is not None and epoch % config.EVAL_FREQ == 0:
-            acc1, acc5, loss = validate(config, data_loader_val, model, epoch)
-            logger.info(
-                f'Accuracy of the network on the {len(dataset_val)} test images: {acc1:.1f}%'
-            )
-            if dist.get_rank() == 0 and acc1 > max_accuracy:
-                save_checkpoint(config,
-                                epoch,
-                                model_without_ddp,
-                                max_accuracy,
-                                optimizer,
-                                lr_scheduler,
-                                loss_scaler,
-                                logger,
-                                model_ema=model_ema,
-                                best='best')
-            max_accuracy = max(max_accuracy, acc1)
-            logger.info(f'Max accuracy: {max_accuracy:.2f}%')
-
-            if config.TRAIN.EMA.ENABLE:
-                acc1, acc5, loss = validate(config, data_loader_val,
-                                            model_ema.ema, epoch)
+            if config.DATA.DATASET == 'mimic_cxr':
+                # Multi-label: use AUC-ROC metric
+                auc, loss, _ = validate_multilabel(config, data_loader_val, model, epoch, logger)
                 logger.info(
-                    f'Accuracy of the ema network on the {len(dataset_val)} test images: {acc1:.1f}%'
+                    f'AUC-ROC of the network on the {len(dataset_val)} val images: {auc:.4f}'
                 )
-                if dist.get_rank() == 0 and acc1 > max_ema_accuracy:
+                if dist.get_rank() == 0 and auc > max_accuracy:
                     save_checkpoint(config,
                                     epoch,
                                     model_without_ddp,
@@ -370,11 +375,68 @@ def main(config):
                                     loss_scaler,
                                     logger,
                                     model_ema=model_ema,
-                                    best='ema_best')
-                max_ema_accuracy = max(max_ema_accuracy, acc1)
-                logger.info(f'Max ema accuracy: {max_ema_accuracy:.2f}%')
+                                    best='best')
+                max_accuracy = max(max_accuracy, auc)
+                logger.info(f'Max AUC-ROC: {max_accuracy:.4f}')
 
-    total_time = time.time() - start_time
+                if config.TRAIN.EMA.ENABLE:
+                    auc, loss, _ = validate_multilabel(config, data_loader_val,
+                                                model_ema.ema, epoch, logger)
+                    logger.info(
+                        f'AUC-ROC of the ema network on the {len(dataset_val)} val images: {auc:.4f}'
+                    )
+                    if dist.get_rank() == 0 and auc > max_ema_accuracy:
+                        save_checkpoint(config,
+                                        epoch,
+                                        model_without_ddp,
+                                        max_accuracy,
+                                        optimizer,
+                                        lr_scheduler,
+                                        loss_scaler,
+                                        logger,
+                                        model_ema=model_ema,
+                                        best='ema_best')
+                    max_ema_accuracy = max(max_ema_accuracy, auc)
+                    logger.info(f'Max ema AUC-ROC: {max_ema_accuracy:.4f}')
+            else:
+                # Single-label: use accuracy metric
+                acc1, acc5, loss = validate(config, data_loader_val, model, epoch)
+                logger.info(
+                    f'Accuracy of the network on the {len(dataset_val)} test images: {acc1:.1f}%'
+                )
+                if dist.get_rank() == 0 and acc1 > max_accuracy:
+                    save_checkpoint(config,
+                                    epoch,
+                                    model_without_ddp,
+                                    max_accuracy,
+                                    optimizer,
+                                    lr_scheduler,
+                                    loss_scaler,
+                                    logger,
+                                    model_ema=model_ema,
+                                    best='best')
+                max_accuracy = max(max_accuracy, acc1)
+                logger.info(f'Max accuracy: {max_accuracy:.2f}%')
+
+                if config.TRAIN.EMA.ENABLE:
+                    acc1, acc5, loss = validate(config, data_loader_val,
+                                                model_ema.ema, epoch)
+                    logger.info(
+                        f'Accuracy of the ema network on the {len(dataset_val)} test images: {acc1:.1f}%'
+                    )
+                    if dist.get_rank() == 0 and acc1 > max_ema_accuracy:
+                        save_checkpoint(config,
+                                        epoch,
+                                        model_without_ddp,
+                                        max_accuracy,
+                                        optimizer,
+                                        lr_scheduler,
+                                        loss_scaler,
+                                        logger,
+                                        model_ema=model_ema,
+                                        best='ema_best')
+                    max_ema_accuracy = max(max_ema_accuracy, acc1)
+                    logger.info(f'Max ema accuracy: {max_ema_accuracy:.2f}%')    total_time = time.time() - start_time
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
     logger.info('Training time {}'.format(total_time_str))
 

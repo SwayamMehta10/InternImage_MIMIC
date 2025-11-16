@@ -15,6 +15,7 @@ from torchvision import transforms
 from .cached_image_folder import (CachedImageFolder, ImageCephDataset,
                                   INat18ImageCephDataset,
                                   INat18ParserCephImage)
+from .mimic_cxr import MIMICCXRDataset
 from .samplers import NodeDistributedSampler, SubsetRandomSampler
 
 try:
@@ -240,6 +241,11 @@ def build_dataset(split, config):
             root = config.DATA.DATA_PATH
             dataset = INat18ImageCephDataset(root, 'val', transform=transform)
         nb_classes = 8142
+    elif config.DATA.DATASET == 'mimic_cxr':
+        # MIMIC-CXR multi-label disease classification
+        root = config.DATA.DATA_PATH
+        dataset = MIMICCXRDataset(root, split=prefix, transform=transform)
+        nb_classes = 14  # 14 disease labels
     else:
         raise NotImplementedError(
             f'build_dataset does support {config.DATA.DATASET}')

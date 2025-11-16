@@ -1,0 +1,130 @@
+# Configuration for InternImage-B on MIMIC-CXR multi-label disease classification
+# Based on ImageNet-1K pretrained weights with 224x224 resolution
+
+DATA:
+  DATASET: 'mimic_cxr'  # Use MIMIC-CXR dataset
+  DATA_PATH: '/scratch/aalla4/shared_folder/MIMIC/files'  # Path on ASU Sol
+  IMG_SIZE: 224
+  BATCH_SIZE: 32  # Adjust based on A100 GPU memory
+  INTERPOLATION: 'bicubic'
+  PIN_MEMORY: True
+  NUM_WORKERS: 8
+  IMG_ON_MEMORY: False  # Set to True if dataset fits in memory for faster training
+  ZIP_MODE: False
+  CACHE_MODE: 'no'
+
+MODEL:
+  TYPE: intern_image
+  NAME: intern_image
+  NUM_CLASSES: 14  # 14 disease labels in MIMIC-CXR
+  DROP_RATE: 0.0
+  DROP_PATH_RATE: 0.5  # InternImage-B drop path rate
+  LABEL_SMOOTHING: 0.0  # Disabled for multi-label classification
+  
+  # InternImage-B architecture
+  INTERN_IMAGE:
+    CORE_OP: 'DCNv3'
+    DEPTHS: [4, 4, 21, 4]  # InternImage-B depths
+    GROUPS: [7, 14, 28, 56]  # InternImage-B groups
+    CHANNELS: 112  # InternImage-B channels
+    LAYER_SCALE: 1e-5
+    OFFSET_SCALE: 1.0
+    MLP_RATIO: 4.0
+    POST_NORM: True
+    RES_POST_NORM: False
+    DW_KERNEL_SIZE: None
+    USE_CLIP_PROJECTOR: False
+    LEVEL2_POST_NORM: False
+    CENTER_FEATURE_SCALE: False
+    REMOVE_CENTER: False
+  
+  # Pretrained weights path (ImageNet-1K)
+  PRETRAINED: 'pretrained/internimage_b_1k_224.pth'
+  RESUME: ''  # Set this to resume from checkpoint
+
+TRAIN:
+  START_EPOCH: 0
+  EPOCHS: 50  # Start with 50 epochs, can increase if needed
+  WARMUP_EPOCHS: 5  # Warmup for 5 epochs (10% of total)
+  
+  # Learning rate settings (lower than ImageNet for medical imaging)
+  BASE_LR: 1e-4  # Lower learning rate for fine-tuning on medical data
+  WARMUP_LR: 5e-7
+  MIN_LR: 1e-6
+  
+  # Optimizer settings
+  WEIGHT_DECAY: 0.05
+  CLIP_GRAD: 5.0
+  AUTO_RESUME: True
+  ACCUMULATION_STEPS: 1  # Increase if GPU memory is limited
+  USE_CHECKPOINT: False  # Enable gradient checkpointing if needed
+  
+  # LR scheduler
+  LR_SCHEDULER:
+    NAME: 'cosine'
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+  
+  # Optimizer
+  OPTIMIZER:
+    NAME: 'adamw'
+    EPS: 1e-8
+    BETAS: [0.9, 0.999]
+    MOMENTUM: 0.9
+    USE_ZERO: False
+    FREEZE_BACKBONE: None  # Set to int to freeze backbone for N epochs
+    DCN_LR_MUL: None
+  
+  # Exponential Moving Average
+  EMA:
+    ENABLE: True
+    DECAY: 0.9999
+  
+  # Layer-wise learning rate decay
+  LR_LAYER_DECAY: True
+  LR_LAYER_DECAY_RATIO: 0.875
+  
+  RAND_INIT_FT_HEAD: False
+
+AUG:
+  # Disable color jitter for grayscale X-rays
+  COLOR_JITTER: 0.0
+  
+  # Disable complex augmentations not suitable for medical images
+  AUTO_AUGMENT: 'none'
+  
+  # Random erasing (can help with generalization)
+  REPROB: 0.1  # Lower probability for medical images
+  REMODE: 'pixel'
+  RECOUNT: 1
+  
+  # Disable mixup and cutmix for multi-label classification
+  MIXUP: 0.0
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: None
+  MIXUP_PROB: 0.0
+  MIXUP_SWITCH_PROB: 0.0
+  MIXUP_MODE: 'batch'
+  
+  RANDOM_RESIZED_CROP: False
+  
+  # ImageNet normalization (works well even for grayscale converted to RGB)
+  MEAN: [0.485, 0.456, 0.406]
+  STD: [0.229, 0.224, 0.225]
+
+TEST:
+  CROP: True  # Use center crop for testing
+  SEQUENTIAL: False
+
+# Mixed precision training
+AMP_OPT_LEVEL: 'O1'  # Use automatic mixed precision for faster training
+
+# Output and logging
+OUTPUT: 'output/mimic_cxr/internimage_b'
+TAG: 'run1'
+SAVE_FREQ: 5  # Save checkpoint every 5 epochs
+PRINT_FREQ: 50  # Print training info every 50 iterations
+EVAL_FREQ: 1  # Evaluate on validation set every epoch
+
+# Random seed for reproducibility
+SEED: 42
