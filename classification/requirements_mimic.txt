@@ -1,35 +1,27 @@
 # Requirements for MIMIC-CXR Training with InternImage
 
 # Core dependencies
-torch>=1.11.0
-torchvision>=0.12.0
-timm==0.6.12
-yacs>=0.1.8
-termcolor>=1.1.0
-tensorboardX>=2.5
+timm
+yacs
+termcolor
+tensorboardX
 
 # Data processing
-pandas>=1.3.0
-numpy>=1.21.0
-Pillow>=9.0.0
-opencv-python>=4.5.5
+pandas
+numpy
+Pillow
+opencv-python
 
 # Medical imaging (for DICOM support)
-pydicom>=2.3.0
+pydicom
 
 # Metrics
-scikit-learn>=1.0.0
-
-# Distributed training
-apex  # Optional: for mixed precision training (install from NVIDIA repo if needed)
+scikit-learn
 
 # Visualization
-matplotlib>=3.5.0
-seaborn>=0.11.0
+matplotlib
+seaborn
 
 # Other utilities
-pyyaml>=6.0
-tqdm>=4.62.0
-
-# Note: DCNv3 operators need to be compiled separately
-# Run: cd ops_dcnv3 && bash make.sh
+pyyaml
+tqdm
