@@ -42,6 +42,8 @@ pip install -r requirements_mimic.txt
 
 echo ""
 echo "Step 5: Building DCNv3 operators..."
+module load gcc-12.1.0-gcc-11.2.0
+gcc --version  # Verify GCC 12.1.0 is loaded
 cd ops_dcnv3
 if [ -f "make.sh" ]; then
     bash make.sh
