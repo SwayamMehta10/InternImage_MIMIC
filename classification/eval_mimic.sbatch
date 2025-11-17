@@ -65,7 +65,7 @@ fi
 # Evaluation command
 python main.py \
     --cfg configs/internimage_b_mimic_cxr_224.yaml \
-    --data-path /scratch/aalla4/shared_folder/MIMIC/files \
+    --data-path /scratch/smehta90/mimic_splits \
     --batch-size 64 \
     --eval \
     --resume $CHECKPOINT_PATH \

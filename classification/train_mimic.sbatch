@@ -58,7 +58,7 @@ echo "=========================================="
 # Adjust parameters as needed based on your setup
 python main.py \
     --cfg configs/internimage_b_mimic_cxr_224.yaml \
-    --data-path /scratch/aalla4/shared_folder/MIMIC/files \
+    --data-path /scratch/smehta90/mimic_splits \
     --batch-size 32 \
     --pretrained pretrained/internimage_b_1k_224.pth \
     --output output/mimic_cxr/internimage_b \

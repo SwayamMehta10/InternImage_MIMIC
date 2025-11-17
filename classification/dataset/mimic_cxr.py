@@ -140,7 +140,8 @@ class MIMICCXRDataset(Dataset):
         # Get image path
         img_path = self.image_paths[idx]
         
-        # Handle relative paths
+        # Paths from prepare_mimic_splits.py are already absolute
+        # If not absolute, make it relative to data_root
         if not os.path.isabs(img_path):
             img_path = os.path.join(self.data_root, img_path)
         
