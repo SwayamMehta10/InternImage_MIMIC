@@ -48,11 +48,11 @@ tail -f logs/train_<job_id>.out
 
 ### Evaluate on Test Set
 ```bash
-# Update checkpoint path in eval_mimic_sol.sh
-vim eval_mimic_sol.sh  # Set CHECKPOINT_PATH to best model
+# Update checkpoint path in eval_mimic.sbatch
+vim eval_mimic.sbatch  # Set CHECKPOINT_PATH to best model
 
 # Submit evaluation
-sbatch eval_mimic_sol.sh
+sbatch eval_mimic.sbatch
 
 # View results
 cat logs/eval_<job_id>.out
@@ -113,7 +113,7 @@ ls /scratch/aalla4/shared_folder/MIMIC/files/*.csv
 | `dataset/mimic_cxr.py` | Dataset loader for MIMIC-CXR |
 | `utils_multilabel.py` | AUC-ROC calculation |
 | `train_mimic.sbatch` | SLURM training script |
-| `eval_mimic_sol.sh` | SLURM evaluation script |
+| `eval_mimic.sbatch` | SLURM evaluation script |
 | `README_MIMIC.md` | Detailed documentation |
 
 ## Customization

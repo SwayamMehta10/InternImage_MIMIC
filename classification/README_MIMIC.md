@@ -84,7 +84,7 @@ cd ..
 
 Update the email address in the SLURM scripts:
 - `train_mimic.sbatch`: Line with `--mail-user=your_email@asu.edu`
-- `eval_mimic_sol.sh`: Line with `--mail-user=your_email@asu.edu`
+- `eval_mimic.sbatch`: Line with `--mail-user=your_email@asu.edu`
 
 ## Training
 
@@ -130,8 +130,8 @@ sbatch train_mimic.sbatch
 After training completes, evaluate on the test set:
 
 ```bash
-# Update checkpoint path in eval_mimic_sol.sh if needed
-sbatch eval_mimic_sol.sh
+# Update checkpoint path in eval_mimic.sbatch if needed
+sbatch eval_mimic.sbatch
 ```
 
 ### View Results
@@ -156,7 +156,7 @@ cat logs/eval_<job_id>.out
 
 ### SLURM Scripts
 - `train_mimic.sbatch`: Training job submission script
-- `eval_mimic_sol.sh`: Evaluation job submission script
+- `eval_mimic.sbatch`: Evaluation job submission script
 
 ## Configuration Details
 

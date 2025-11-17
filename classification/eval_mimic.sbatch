@@ -1,17 +1,15 @@
 #!/bin/bash
-#SBATCH --job-name=internimage_eval
-#SBATCH --partition=public
-#SBATCH --qos=class
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
+#SBATCH -J internimage_eval
+#SBATCH -p public
+#SBATCH -q class
 #SBATCH --cpus-per-task=4
 #SBATCH --gres=gpu:a100:1
 #SBATCH --mem=32G
-#SBATCH --time=01:00:00
+#SBATCH --time=08:00:00
 #SBATCH --output=logs/eval_%j.out
 #SBATCH --error=logs/eval_%j.err
-#SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=your_email@asu.edu
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=smehta90@asu.edu
 
 # InternImage evaluation script for MIMIC-CXR on ASU Sol Supercomputer
 # This script evaluates trained InternImage-B on MIMIC-CXR test set

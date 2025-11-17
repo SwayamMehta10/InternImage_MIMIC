@@ -113,7 +113,7 @@ This implementation adapts the InternImage classification codebase for multi-lab
 - Includes commented resume section for checkpointing
 - Prints job statistics at end
 
-**Evaluation Script** (`classification/eval_mimic_sol.sh`):
+**Evaluation Script** (`classification/eval_mimic.sbatch`):
 - Job configuration: 1 A100 GPU, 4 CPUs, 32GB RAM, 1-hour walltime
 - Evaluates best checkpoint on test set
 - Supports EMA model evaluation (commented)
@@ -257,7 +257,7 @@ Each checkpoint contains:
 2. `classification/utils_multilabel.py` - Multi-label utilities
 3. `classification/configs/internimage_b_mimic_cxr_224.yaml` - Configuration
 4. `classification/train_mimic.sbatch` - Training SLURM script
-5. `classification/eval_mimic_sol.sh` - Evaluation SLURM script
+5. `classification/eval_mimic.sbatch` - Evaluation SLURM script
 6. `classification/README_MIMIC.md` - Documentation
 7. `classification/requirements_mimic.txt` - Dependencies
 8. `classification/setup_mimic_env.sh` - Setup script
@@ -292,8 +292,8 @@ sbatch train_mimic.sbatch
 
 ### Evaluation
 ```bash
-# Edit eval_mimic_sol.sh to set checkpoint path
-sbatch eval_mimic_sol.sh
+# Edit eval_mimic.sbatch to set checkpoint path
+sbatch eval_mimic.sbatch
 cat logs/eval_<job_id>.out  # View results
 ```
 

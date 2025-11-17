@@ -81,9 +81,9 @@ Use this checklist to verify your setup before submitting training jobs.
 - [ ] Executable: `chmod +x classification/train_mimic.sbatch`
 
 ### Evaluation Script
-- [ ] Script exists: `classification/eval_mimic_sol.sh`
-- [ ] Email updated: `grep "mail-user" classification/eval_mimic_sol.sh`
-- [ ] Executable: `chmod +x classification/eval_mimic_sol.sh`
+- [ ] Script exists: `classification/eval_mimic.sbatch`
+- [ ] Email updated: `grep "mail-user" classification/eval_mimic.sbatch`
+- [ ] Executable: `chmod +x classification/eval_mimic.sbatch`
 
 ## ☐ Directory Structure
 
