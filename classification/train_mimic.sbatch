@@ -34,6 +34,12 @@ export CUDA_VISIBLE_DEVICES=0
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export PYTHONUNBUFFERED=1
 
+# Set distributed training environment variables for single GPU
+export RANK=0
+export WORLD_SIZE=1
+export MASTER_ADDR=localhost
+export MASTER_PORT=12355
+
 # Print environment info
 echo "Python version:"
 python --version
