@@ -19,7 +19,11 @@ import mmcv
 import torch
 import torch.distributed as dist
 import torch.utils.data as data
-from mmcv.fileio import FileClient
+try:
+    from mmcv.fileio import FileClient
+except (ImportError, ModuleNotFoundError):
+    # mmcv.fileio not available - only needed for cached datasets
+    FileClient = None
 from PIL import Image
 from tqdm import tqdm, trange
 
