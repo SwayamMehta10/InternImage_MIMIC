@@ -436,7 +436,9 @@ def main(config):
                                         model_ema=model_ema,
                                         best='ema_best')
                     max_ema_accuracy = max(max_ema_accuracy, acc1)
-                    logger.info(f'Max ema accuracy: {max_ema_accuracy:.2f}%')    total_time = time.time() - start_time
+                    logger.info(f'Max ema accuracy: {max_ema_accuracy:.2f}%')
+    
+    total_time = time.time() - start_time
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
     logger.info('Training time {}'.format(total_time_str))
 
