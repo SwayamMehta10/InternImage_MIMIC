@@ -24,20 +24,17 @@ echo "=========================================="
 
 # Load required modules on ASU Sol
 module purge
-module load anaconda3/2023.03  # Adjust version as needed
-module load cuda/11.8  # Adjust CUDA version as needed
+module load cuda-12.6.1-gcc-12.1.0
+module load mamba/latest
 
 # Activate conda environment
-source activate internimage_env
+# Make sure to create this environment beforehand with required packages
+source activate INTERNIMAGE_ENV
 
 # Set environment variables
 export CUDA_VISIBLE_DEVICES=0
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export PYTHONUNBUFFERED=1
-
-# Create necessary directories
-mkdir -p logs
-mkdir -p results/mimic_cxr
 
 # Navigate to classification directory
 cd classification
