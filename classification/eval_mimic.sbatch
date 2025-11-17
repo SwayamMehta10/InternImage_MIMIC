@@ -65,6 +65,7 @@ python main.py \
     --resume $CHECKPOINT_PATH \
     --output results/mimic_cxr \
     --tag evaluation \
+    --local-rank 0 \
     --opts AMP_OPT_LEVEL O1 \
     2>&1 | tee logs/eval_$(date +%Y%m%d_%H%M%S).log
 
@@ -73,6 +74,15 @@ python main.py \
 # EMA_CHECKPOINT_PATH="output/mimic_cxr/internimage_b/run1/ema_best_ckpt.pth"
 # python main.py \
 #     --cfg configs/internimage_b_mimic_cxr_224.yaml \
+#     --data-path /scratch/aalla4/shared_folder/MIMIC/files \
+#     --batch-size 64 \
+#     --eval \
+#     --resume $EMA_CHECKPOINT_PATH \
+#     --output results/mimic_cxr \
+#     --tag evaluation_ema \
+#     --local-rank 0 \
+#     --opts AMP_OPT_LEVEL O1 \
+#     2>&1 | tee logs/eval_ema_$(date +%Y%m%d_%H%M%S).log
 #     --data-path /scratch/aalla4/shared_folder/MIMIC/files \
 #     --batch-size 64 \
 #     --eval \

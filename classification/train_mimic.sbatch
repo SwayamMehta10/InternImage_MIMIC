@@ -57,6 +57,7 @@ python main.py \
     --pretrained pretrained/internimage_b_1k_224.pth \
     --output output/mimic_cxr/internimage_b \
     --tag run1 \
+    --local-rank 0 \
     --opts AMP_OPT_LEVEL O1 \
     2>&1 | tee logs/train_$(date +%Y%m%d_%H%M%S).log
 
@@ -68,6 +69,7 @@ python main.py \
 #     --resume output/mimic_cxr/internimage_b/run1/ckpt_epoch_X.pth \
 #     --output output/mimic_cxr/internimage_b \
 #     --tag run1 \
+#     --local-rank 0 \
 #     --opts AMP_OPT_LEVEL O1 \
 #     2>&1 | tee -a logs/train_resume_$(date +%Y%m%d_%H%M%S).log
 
