@@ -59,7 +59,7 @@ echo "=========================================="
 python main.py \
     --cfg configs/internimage_b_mimic_cxr_224.yaml \
     --data-path /scratch/smehta90/mimic_splits \
-    --batch-size 32 \
+    --batch-size 128 \
     --pretrained pretrained/internimage_b_1k_224.pth \
     --output output/mimic_cxr/internimage_b \
     --tag run1 \
