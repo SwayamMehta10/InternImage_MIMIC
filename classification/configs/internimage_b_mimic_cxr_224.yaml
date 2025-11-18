@@ -84,7 +84,7 @@ TRAIN:
   LR_LAYER_DECAY: True
   LR_LAYER_DECAY_RATIO: 0.875
   
-  RAND_INIT_FT_HEAD: False
+  RAND_INIT_FT_HEAD: True
 
 AUG:
   # Disable color jitter for grayscale X-rays
