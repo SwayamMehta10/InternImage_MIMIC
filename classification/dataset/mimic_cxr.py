@@ -88,8 +88,12 @@ class MIMICCXRDataset(Dataset):
         self.data_df = pd.read_csv(csv_file)
         
         # Filter by split if CSV contains all splits
+        # Note: 'val' in code corresponds to 'validate' in MIMIC-CXR official splits
         if 'split' in self.data_df.columns:
-            self.data_df = self.data_df[self.data_df['split'] == split].reset_index(drop=True)
+            split_value = 'validate' if split == 'val' else split
+            original_len = len(self.data_df)
+            self.data_df = self.data_df[self.data_df['split'] == split_value].reset_index(drop=True)
+            print(f"Filtered from {original_len} to {len(self.data_df)} samples for split='{split_value}'")
         
         # Verify disease labels exist in CSV
         missing_labels = [label for label in self.DISEASE_LABELS if label not in self.data_df.columns]
