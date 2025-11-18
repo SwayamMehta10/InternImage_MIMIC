@@ -5,7 +5,7 @@ DATA:
   DATASET: 'mimic_cxr'  # Use MIMIC-CXR dataset
   DATA_PATH: '/scratch/aalla4/shared_folder/MIMIC/files'  # Path on ASU Sol
   IMG_SIZE: 224
-  BATCH_SIZE: 32  # Adjust based on A100 GPU memory
+  BATCH_SIZE: 128  # Standard batch size for A100 GPU, optimized for throughput
   INTERPOLATION: 'bicubic'
   PIN_MEMORY: True
   NUM_WORKERS: 4
@@ -44,13 +44,13 @@ MODEL:
 
 TRAIN:
   START_EPOCH: 0
-  EPOCHS: 50  # Start with 50 epochs, can increase if needed
-  WARMUP_EPOCHS: 5  # Warmup for 5 epochs (10% of total)
+  EPOCHS: 25  # Reduced from 50 for 3-day training window
+  WARMUP_EPOCHS: 3  # Reduced proportionally (was 5 for 50 epochs)
   
-  # Learning rate settings (lower than ImageNet for medical imaging)
-  BASE_LR: 1e-4  # Lower learning rate for fine-tuning on medical data
-  WARMUP_LR: 5e-7
-  MIN_LR: 1e-6
+  # Learning rate settings (scaled with batch size increase)
+  BASE_LR: 4e-4  # Scaled 4x from 1e-4 to match batch size 128 (4x increase from 32)
+  WARMUP_LR: 2e-6  # Scaled proportionally
+  MIN_LR: 4e-6  # Scaled proportionally
   
   # Optimizer settings
   WEIGHT_DECAY: 0.05
@@ -122,7 +122,7 @@ AMP_OPT_LEVEL: 'O1'  # Use automatic mixed precision for faster training
 # Output and logging
 OUTPUT: 'output/mimic_cxr/internimage_b'
 TAG: 'run1'
-SAVE_FREQ: 5  # Save checkpoint every 5 epochs
+SAVE_FREQ: 1  # Save checkpoint every epoch for safety
 PRINT_FREQ: 50  # Print training info every 50 iterations
 EVAL_FREQ: 1  # Evaluate on validation set every epoch
 
