@@ -81,6 +81,20 @@ def validate_multilabel(config, data_loader, model, epoch=None, logger=None):
                     f'Mem {memory_used:.0f}MB'
                 )
     
+    # Check if we have any data
+    if len(all_outputs) == 0:
+        error_msg = (
+            f"ERROR: Validation dataset is empty! "
+            f"Data loader length: {len(data_loader)}, "
+            f"Please check:\n"
+            f"1. CSV file exists and has data\n"
+            f"2. Image paths in CSV are correct\n"
+            f"3. Images are accessible from the data_path"
+        )
+        if logger:
+            logger.error(error_msg)
+        raise ValueError(error_msg)
+    
     # Concatenate all outputs and targets
     all_outputs = torch.cat(all_outputs, dim=0).numpy()  # Shape: [N, num_classes]
     all_targets = torch.cat(all_targets, dim=0).numpy()  # Shape: [N, num_classes]

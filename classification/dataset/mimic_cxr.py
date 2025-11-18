@@ -122,6 +122,28 @@ class MIMICCXRDataset(Dataset):
         print(f"Loaded {len(self)} samples for {split} split")
         print(f"Label shape: {self.labels.shape}")
         print(f"Positive label distribution: {self.labels.sum(axis=0)}")
+        
+        # Verify first few images are accessible
+        print(f"Verifying image accessibility...")
+        accessible_count = 0
+        for i in range(min(5, len(self.image_paths))):
+            img_path = self.image_paths[i]
+            if not os.path.isabs(img_path):
+                img_path = os.path.join(self.data_root, img_path)
+            if os.path.exists(img_path):
+                accessible_count += 1
+            else:
+                print(f"  WARNING: Image not found: {img_path}")
+        
+        if accessible_count == 0:
+            raise FileNotFoundError(
+                f"No images found! Check:\n"
+                f"  1. data_root: {self.data_root}\n"
+                f"  2. First path: {self.image_paths[0]}\n"
+                f"  3. Full path would be: {os.path.join(self.data_root, self.image_paths[0]) if not os.path.isabs(self.image_paths[0]) else self.image_paths[0]}"
+            )
+        
+        print(f"  {accessible_count}/{min(5, len(self.image_paths))} test images accessible")
     
     def __len__(self):
         """Return the number of samples in the dataset."""
