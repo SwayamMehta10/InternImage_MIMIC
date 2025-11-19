@@ -2,7 +2,7 @@
 #SBATCH -J internimage_mimic
 #SBATCH -p public
 #SBATCH -q class
-#SBATCH --cpus-per-task=8
+#SBATCH --cpus-per-task=12
 #SBATCH --gres=gpu:a100:1
 #SBATCH --mem=32G
 #SBATCH --time=12:00:00

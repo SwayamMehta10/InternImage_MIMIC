@@ -8,7 +8,7 @@ DATA:
   BATCH_SIZE: 128  # Standard batch size for A100 GPU, optimized for throughput
   INTERPOLATION: 'bicubic'
   PIN_MEMORY: True
-  NUM_WORKERS: 8  # Increased from 4 to reduce I/O bottleneck
+  NUM_WORKERS: 12  # Increased from 8 to further reduce I/O bottleneck
   IMG_ON_MEMORY: False  # Set to True if dataset fits in memory for faster training
   ZIP_MODE: False
   CACHE_MODE: 'no'
