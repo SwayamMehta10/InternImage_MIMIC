@@ -29,7 +29,7 @@ def load_ema_checkpoint(config, model_ema, logger):
                                                         map_location='cpu',
                                                         check_hash=True)
     else:
-        checkpoint = torch.load(config.MODEL.RESUME, map_location='cpu')
+        checkpoint = torch.load(config.MODEL.RESUME, map_location='cpu', weights_only=False)
 
     assert isinstance(checkpoint, dict)
     if 'model_ema' in checkpoint:
