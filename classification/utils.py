@@ -65,7 +65,7 @@ def load_checkpoint(config, model, optimizer, lr_scheduler, scaler, logger):
                                                         map_location='cpu',
                                                         check_hash=True)
     else:
-        checkpoint = torch.load(config.MODEL.RESUME, map_location='cpu')
+        checkpoint = torch.load(config.MODEL.RESUME, map_location='cpu', weights_only=False)
 
     print('resuming model')
 
@@ -385,9 +385,29 @@ def auto_resume_helper(output_dir):
     checkpoints = [ckpt for ckpt in checkpoints if ckpt.endswith('pth')]
     print(f'All checkpoints founded in {output_dir}: {checkpoints}')
     if len(checkpoints) > 0:
-        latest_checkpoint = max(
-            [os.path.join(output_dir, d) for d in checkpoints],
-            key=os.path.getmtime)
+        # Prioritize epoch checkpoints over best/ema checkpoints
+        epoch_ckpts = [ckpt for ckpt in checkpoints if ckpt.startswith('ckpt_epoch_') 
+                      and not 'best' in ckpt and not 'ema' in ckpt]
+        if epoch_ckpts:
+            # Extract epoch numbers and find the latest
+            epoch_nums = []
+            for ckpt in epoch_ckpts:
+                try:
+                    epoch_num = int(ckpt.split('_')[2].split('.')[0])
+                    epoch_nums.append((epoch_num, ckpt))
+                except:
+                    pass
+            if epoch_nums:
+                latest_epoch, latest_ckpt = max(epoch_nums, key=lambda x: x[0])
+                latest_checkpoint = os.path.join(output_dir, latest_ckpt)
+            else:
+                latest_checkpoint = max(
+                    [os.path.join(output_dir, d) for d in checkpoints],
+                    key=os.path.getmtime)
+        else:
+            latest_checkpoint = max(
+                [os.path.join(output_dir, d) for d in checkpoints],
+                key=os.path.getmtime)
         print(f'The latest checkpoint founded: {latest_checkpoint}')
         resume_file = latest_checkpoint
     else:
