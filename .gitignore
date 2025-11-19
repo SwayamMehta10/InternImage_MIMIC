@@ -8,3 +8,10 @@ checkpoint_dir/
 demo/
 pretrained/
 upload.py
+*.out
+classification/output/
+classification/pretrained/
+classification/ops_dcnv3/build/
+classification/ops_dcnv3/DCNv3.egg-info/
+*.pth
+*.out
