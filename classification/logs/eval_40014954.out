@@ -1,14 +1,14 @@
 ==========================================
-Evaluation job started at: Fri Nov 21 00:05:41 MST 2025
-Job ID: 40011843
-Node: sg020
+Evaluation job started at: Fri Nov 21 00:32:01 MST 2025
+Job ID: 40014954
+Node: sg015
 ==========================================
 Python version:
 Python 3.12.12
 PyTorch version:
 2.9.1+cu126
 GPU info:
-Fri Nov 21 00:05:49 2025       
+Fri Nov 21 00:32:11 2025       
 +-----------------------------------------------------------------------------------------+
 | NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
 +-----------------------------------------+------------------------+----------------------+
@@ -16,8 +16,8 @@ Fri Nov 21 00:05:49 2025
 | Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
 |                                         |                        |               MIG M. |
 |=========================================+========================+======================|
-|   0  NVIDIA A100-SXM4-80GB          On  |   00000000:01:00.0 Off |                    0 |
-| N/A   38C    P0             82W /  500W |       0MiB /  81920MiB |      0%      Default |
+|   0  NVIDIA A100-SXM4-80GB          On  |   00000000:81:00.0 Off |                    0 |
+| N/A   36C    P0             84W /  500W |       0MiB /  81920MiB |      0%      Default |
 |                                         |                        |             Disabled |
 +-----------------------------------------+------------------------+----------------------+
 
@@ -32,11 +32,11 @@ Fri Nov 21 00:05:49 2025
 Starting evaluation on test set...
 ==========================================
 => merge config from configs/internimage_b_mimic_cxr_224.yaml
-[2025-11-21 00:05:59 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 195): INFO Evaluation configuration:
-[2025-11-21 00:05:59 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 196): INFO   Checkpoint: output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_best.pth
-[2025-11-21 00:05:59 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 197): INFO   Split: test
-[2025-11-21 00:05:59 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 198): INFO   Batch size: 128
-[2025-11-21 00:05:59 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 199): INFO   Data path: /scratch/smehta90/mimic_splits
+[2025-11-21 00:32:22 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 283): INFO Evaluation configuration:
+[2025-11-21 00:32:22 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 284): INFO   Checkpoint: output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_best.pth
+[2025-11-21 00:32:22 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 285): INFO   Split: test
+[2025-11-21 00:32:22 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 286): INFO   Batch size: 128
+[2025-11-21 00:32:22 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 287): INFO   Data path: /scratch/smehta90/mimic_splits
 Loading MIMIC-CXR train split from: /scratch/smehta90/mimic_splits/mimic-cxr-2.0.0-chexpert-train.csv
 Filtered from 368945 to 368945 samples for split='train'
 Using column 'path' for image paths
@@ -64,8 +64,8 @@ Positive label distribution: [1034. 1258.  326.  959.  200.  167.  202. 1561.  9
   144. 1457.]
 Verifying image accessibility...
   5/5 test images accessible
-[2025-11-21 00:06:01 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 89): INFO Evaluating on test set with 5159 samples
-[2025-11-21 00:06:01 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 91): INFO Creating model:intern_image/internimage_b_mimic_cxr_224
+[2025-11-21 00:32:24 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 177): INFO Evaluating on test set with 5159 samples
+[2025-11-21 00:32:24 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 179): INFO Creating model:intern_image/internimage_b_mimic_cxr_224
 using core type: DCNv3
 using activation layer: GELU
 using main norm layer: LN
@@ -74,7 +74,7 @@ level2_post_norm: False
 level2_post_norm_block_ids: None
 res_post_norm: False
 remove_center: False
-[2025-11-21 00:06:03 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 94): INFO InternImage(
+[2025-11-21 00:32:25 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 182): INFO InternImage(
   (patch_embed): StemLayer(
     (conv1): Conv2d(3, 56, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
     (norm1): Sequential(
@@ -1096,12 +1096,44 @@ remove_center: False
   (head): Linear(in_features=1344, out_features=14, bias=True)
   (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
 )
-[2025-11-21 00:06:03 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 97): INFO number of params: 96135662
-[2025-11-21 00:06:03 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 103): INFO Loading checkpoint from output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_best.pth
-[2025-11-21 00:06:05 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 108): INFO Checkpoint loaded: <All keys matched successfully>
-[2025-11-21 00:06:05 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 109): INFO Checkpoint was saved at epoch 19
-[2025-11-21 00:06:05 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 112): INFO Best validation AUC-ROC in checkpoint: 0.8114
-[2025-11-21 00:06:05 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 118): INFO Starting evaluation on test set...
+[2025-11-21 00:32:25 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 185): INFO number of params: 96135662
+[2025-11-21 00:32:25 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 191): INFO Loading checkpoint from output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_best.pth
+[2025-11-21 00:32:27 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 196): INFO Checkpoint loaded: <All keys matched successfully>
+[2025-11-21 00:32:27 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 197): INFO Checkpoint was saved at epoch 19
+[2025-11-21 00:32:27 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 200): INFO Best validation AUC-ROC in checkpoint: 0.8114
+[2025-11-21 00:32:27 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 206): INFO Starting evaluation on test set...
+[2025-11-21 00:33:08 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 90): INFO Test: [0/41]	Time 38.243 (38.243)	Loss 0.2778 (0.2778)	Mem 3462MB
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 118): INFO  * Mean AUC-ROC 0.7889 Loss 0.2911
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 119): INFO  * Per-class AUC-ROC: ['0.7699', '0.7824', '0.7617', '0.8465', '0.7168', '0.6956', '0.7065', '0.7088', '0.8136', '0.8941', '0.8586', '0.7288', '0.8643', '0.8974']
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 210): INFO ============================================================
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 211): INFO TEST SET RESULTS:
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 212): INFO ============================================================
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 213): INFO Mean AUC-ROC: 0.7889
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 214): INFO Loss: 0.2911
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 215): INFO Per-class AUC-ROC: [0.7699272023914192, 0.7823789831721433, 0.7617472666826611, 0.8465383087541586, 0.7168390804597701, 0.6955907895746968, 0.7064986607597616, 0.7088382612733461, 0.8135543547052239, 0.8940724142048626, 0.8586317860477525, 0.7288025363628332, 0.8642655367231639, 0.8974267559096402]
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 216): INFO ============================================================
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 226): INFO 
+Detailed per-class results:
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 227): INFO ------------------------------------------------------------
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 228): INFO Disease                           AUC-ROC
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 229): INFO ------------------------------------------------------------
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO Atelectasis                        0.7699
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO Cardiomegaly                       0.7824
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO Consolidation                      0.7617
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO Edema                              0.8465
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO Enlarged Cardiomediastinum         0.7168
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO Fracture                           0.6956
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO Lung Lesion                        0.7065
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO Lung Opacity                       0.7088
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO No Finding                         0.8136
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO Pleural Effusion                   0.8941
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO Pleural Other                      0.8586
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO Pneumonia                          0.7288
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO Pneumothorax                       0.8643
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 231): INFO Support Devices                    0.8974
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 232): INFO ------------------------------------------------------------
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 233): INFO Mean                               0.7889
+[2025-11-21 00:34:43 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 234): INFO ------------------------------------------------------------
 ==========================================
-Evaluation finished at: Fri Nov 21 00:07:55 MST 2025
+Evaluation finished at: Fri Nov 21 00:34:45 MST 2025
 ==========================================

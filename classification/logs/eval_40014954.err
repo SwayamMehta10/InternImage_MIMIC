@@ -22,26 +22,3 @@ Other uses are not tested. More info: https://links.asu.edu/solpy
   @custom_bwd
 /home/smehta90/.conda/envs/INTERNIMAGE_ENV/lib/python3.12/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
   warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-Traceback (most recent call last):
-  File "/scratch/smehta90/InternImage_MIMIC/classification/eval_checkpoint.py", line 202, in <module>
-    main(config)
-  File "/scratch/smehta90/InternImage_MIMIC/classification/eval_checkpoint.py", line 121, in main
-    auc, loss, per_class_auc = validate_multilabel(config, data_loader, model, logger=logger)
-                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/smehta90/.conda/envs/INTERNIMAGE_ENV/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "/scratch/smehta90/InternImage_MIMIC/classification/utils_multilabel.py", line 67, in validate_multilabel
-    loss = reduce_tensor(loss)
-           ^^^^^^^^^^^^^^^^^^^
-  File "/scratch/smehta90/InternImage_MIMIC/classification/utils_multilabel.py", line 16, in reduce_tensor
-    dist.all_reduce(rt, op=dist.ReduceOp.SUM)
-  File "/home/smehta90/.conda/envs/INTERNIMAGE_ENV/lib/python3.12/site-packages/torch/distributed/c10d_logger.py", line 81, in wrapper
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "/home/smehta90/.conda/envs/INTERNIMAGE_ENV/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 2924, in all_reduce
-    group = _get_default_group()
-            ^^^^^^^^^^^^^^^^^^^^
-  File "/home/smehta90/.conda/envs/INTERNIMAGE_ENV/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 1303, in _get_default_group
-    raise ValueError(
-ValueError: Default process group has not been initialized, please make sure to call init_process_group.
