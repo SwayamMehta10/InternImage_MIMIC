@@ -30,7 +30,95 @@ from lr_scheduler import build_scheduler
 from optimizer import build_optimizer
 from logger import create_logger
 from utils import load_checkpoint, save_checkpoint, get_grad_norm, auto_resume_helper
-from utils_multilabel import validate_multilabel
+
+
+@torch.no_grad()
+def validate_multilabel_single_gpu(config, data_loader, model, logger=None):
+    """
+    Validation function for multi-label classification without distributed training.
+    
+    Args:
+        config: Configuration object
+        data_loader: Validation data loader
+        model: Model to evaluate
+        logger: Logger object
+        
+    Returns:
+        tuple: (mean_auc, loss, per_class_auc) - mean AUC-ROC, average loss, and per-class AUC-ROC
+    """
+    from sklearn.metrics import roc_auc_score
+    
+    criterion = torch.nn.BCEWithLogitsLoss()
+    model.eval()
+
+    batch_time = AverageMeter()
+    loss_meter = AverageMeter()
+    
+    # Collect all predictions and targets
+    all_outputs = []
+    all_targets = []
+    
+    import time
+    end = time.time()
+    
+    for idx, (images, target) in enumerate(data_loader):
+        if type(images) == list:
+            images = [item.cuda(non_blocking=True) for item in images]
+        else:
+            images = images.cuda(non_blocking=True)
+        target = target.cuda(non_blocking=True)
+        
+        # Forward pass
+        output = model(images)
+        
+        # Calculate loss
+        loss = criterion(output, target)
+        
+        # Collect predictions and targets for AUC calculation
+        all_outputs.append(output.cpu())
+        all_targets.append(target.cpu())
+        
+        loss_meter.update(loss.item(), target.size(0))
+        
+        # Measure elapsed time
+        batch_time.update(time.time() - end)
+        end = time.time()
+        
+        if idx % config.PRINT_FREQ == 0:
+            memory_used = torch.cuda.max_memory_allocated() / (1024.0 * 1024.0)
+            if logger:
+                logger.info(
+                    f'Test: [{idx}/{len(data_loader)}]\t'
+                    f'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
+                    f'Loss {loss_meter.val:.4f} ({loss_meter.avg:.4f})\t'
+                    f'Mem {memory_used:.0f}MB'
+                )
+    
+    # Concatenate all predictions and targets
+    all_outputs = torch.cat(all_outputs, dim=0).numpy()
+    all_targets = torch.cat(all_targets, dim=0).numpy()
+    
+    # Apply sigmoid to get probabilities
+    all_probs = 1 / (1 + np.exp(-all_outputs))
+    
+    # Calculate per-class AUC-ROC
+    per_class_auc = []
+    for i in range(all_targets.shape[1]):
+        try:
+            auc = roc_auc_score(all_targets[:, i], all_probs[:, i])
+            per_class_auc.append(auc)
+        except ValueError:
+            # If only one class present in y_true, skip this class
+            per_class_auc.append(0.0)
+    
+    # Calculate mean AUC-ROC
+    mean_auc = np.mean(per_class_auc)
+    
+    if logger:
+        logger.info(f' * Mean AUC-ROC {mean_auc:.4f} Loss {loss_meter.avg:.4f}')
+        logger.info(f' * Per-class AUC-ROC: {[f"{auc:.4f}" for auc in per_class_auc]}')
+    
+    return mean_auc, loss_meter.avg, per_class_auc
 
 
 def parse_option():
@@ -118,7 +206,7 @@ def main(config):
     logger.info(f'Starting evaluation on {split_name} set...')
     
     if config.DATA.DATASET == 'mimic_cxr':
-        auc, loss, per_class_auc = validate_multilabel(config, data_loader, model, logger=logger)
+        auc, loss, per_class_auc = validate_multilabel_single_gpu(config, data_loader, model, logger=logger)
         logger.info(f'{"=" * 60}')
         logger.info(f'{split_name.upper()} SET RESULTS:')
         logger.info(f'{"=" * 60}')
