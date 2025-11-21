@@ -1,0 +1,148 @@
+==========================================
+Job started at: Fri Nov 21 01:04:52 MST 2025
+Job ID: 40018696
+==========================================
+==========================================
+Calculating comprehensive metrics...
+==========================================
+=> merge config from configs/internimage_b_mimic_cxr_224.yaml
+Loading MIMIC-CXR train split from: /scratch/smehta90/mimic_splits/mimic-cxr-2.0.0-chexpert-train.csv
+Filtered from 368945 to 368945 samples for split='train'
+Using column 'path' for image paths
+Loaded 368945 samples for train split
+Label shape: (368945, 14)
+Positive label distribution: [ 63485.  62554.  14236.  35279.   9752.   7404.  10490.  74302. 141239.
+  74745.   3319.  25489.  14001.  81890.]
+Verifying image accessibility...
+  5/5 test images accessible
+Loading MIMIC-CXR val split from: /scratch/smehta90/mimic_splits/mimic-cxr-2.0.0-chexpert-val.csv
+Filtered from 2991 to 2991 samples for split='validate'
+Using column 'path' for image paths
+Loaded 2991 samples for val split
+Label shape: (2991, 14)
+Positive label distribution: [ 528.  534.  113.  326.   90.   34.  109.  560. 1129.  670.   22.  194.
+  112.  726.]
+Verifying image accessibility...
+  5/5 test images accessible
+Loading MIMIC-CXR test split from: /scratch/smehta90/mimic_splits/mimic-cxr-2.0.0-chexpert-test.csv
+Filtered from 5159 to 5159 samples for split='test'
+Using column 'path' for image paths
+Loaded 5159 samples for test split
+Label shape: (5159, 14)
+Positive label distribution: [1034. 1258.  326.  959.  200.  167.  202. 1561.  984. 1542.  119.  539.
+  144. 1457.]
+Verifying image accessibility...
+  5/5 test images accessible
+using core type: DCNv3
+using activation layer: GELU
+using main norm layer: LN
+using dpr: linear, 0.5
+level2_post_norm: False
+level2_post_norm_block_ids: None
+res_post_norm: False
+remove_center: False
+Collecting predictions...
+  Processed 0/41 batches
+  Processed 10/41 batches
+  Processed 20/41 batches
+  Processed 30/41 batches
+  Processed 40/41 batches
+
+Calculating metrics per class...
+  Atelectasis: AUC-ROC=0.7699, AP=0.4122, F1=0.3195
+  Cardiomegaly: AUC-ROC=0.7824, AP=0.4956, F1=0.4309
+  Consolidation: AUC-ROC=0.7617, AP=0.1836, F1=0.0353
+  Edema: AUC-ROC=0.8465, AP=0.5549, F1=0.5274
+  Enlarged Cardiomediastinum: AUC-ROC=0.7168, AP=0.1028, F1=0.0000
+  Fracture: AUC-ROC=0.6956, AP=0.0813, F1=0.0000
+  Lung Lesion: AUC-ROC=0.7065, AP=0.1001, F1=0.0000
+  Lung Opacity: AUC-ROC=0.7088, AP=0.4925, F1=0.3385
+  No Finding: AUC-ROC=0.8136, AP=0.5226, F1=0.4917
+  Pleural Effusion: AUC-ROC=0.8941, AP=0.7916, F1=0.7167
+  Pleural Other: AUC-ROC=0.8586, AP=0.1286, F1=0.0000
+  Pneumonia: AUC-ROC=0.7288, AP=0.2652, F1=0.1084
+  Pneumothorax: AUC-ROC=0.8643, AP=0.2858, F1=0.3307
+  Support Devices: AUC-ROC=0.8974, AP=0.7673, F1=0.7276
+
+Saved comprehensive metrics to: output/mimic_cxr/internimage_b/metrics/comprehensive_metrics.csv
+
+================================================================================
+SUMMARY METRICS (threshold = 0.5)
+================================================================================
+Mean AUC-ROC:        0.7889
+Mean AP:             0.3703
+Mean Sensitivity:    0.2564
+Mean Specificity:    0.9521
+Mean Precision:      0.3868
+Mean F1:             0.2876
+================================================================================
+
+Results saved to: output/mimic_cxr/internimage_b/metrics
+
+==========================================
+Generating ROC curve visualizations...
+==========================================
+=> merge config from configs/internimage_b_mimic_cxr_224.yaml
+Loading MIMIC-CXR train split from: /scratch/smehta90/mimic_splits/mimic-cxr-2.0.0-chexpert-train.csv
+Filtered from 368945 to 368945 samples for split='train'
+Using column 'path' for image paths
+Loaded 368945 samples for train split
+Label shape: (368945, 14)
+Positive label distribution: [ 63485.  62554.  14236.  35279.   9752.   7404.  10490.  74302. 141239.
+  74745.   3319.  25489.  14001.  81890.]
+Verifying image accessibility...
+  5/5 test images accessible
+Loading MIMIC-CXR val split from: /scratch/smehta90/mimic_splits/mimic-cxr-2.0.0-chexpert-val.csv
+Filtered from 2991 to 2991 samples for split='validate'
+Using column 'path' for image paths
+Loaded 2991 samples for val split
+Label shape: (2991, 14)
+Positive label distribution: [ 528.  534.  113.  326.   90.   34.  109.  560. 1129.  670.   22.  194.
+  112.  726.]
+Verifying image accessibility...
+  5/5 test images accessible
+Loading MIMIC-CXR test split from: /scratch/smehta90/mimic_splits/mimic-cxr-2.0.0-chexpert-test.csv
+Filtered from 5159 to 5159 samples for split='test'
+Using column 'path' for image paths
+Loaded 5159 samples for test split
+Label shape: (5159, 14)
+Positive label distribution: [1034. 1258.  326.  959.  200.  167.  202. 1561.  984. 1542.  119.  539.
+  144. 1457.]
+Verifying image accessibility...
+  5/5 test images accessible
+using core type: DCNv3
+using activation layer: GELU
+using main norm layer: LN
+using dpr: linear, 0.5
+level2_post_norm: False
+level2_post_norm_block_ids: None
+res_post_norm: False
+remove_center: False
+Collecting predictions for ROC curves...
+  Processed 0/41 batches
+  Processed 10/41 batches
+  Processed 20/41 batches
+  Processed 30/41 batches
+  Processed 40/41 batches
+
+Generating individual ROC curves...
+  Saved individual ROC curves to: output/mimic_cxr/internimage_b/roc_curves/roc_curves_individual.png
+
+Generating combined ROC curve plot...
+  Saved combined ROC curves to: output/mimic_cxr/internimage_b/roc_curves/roc_curves_combined.png
+
+Generating micro/macro average ROC curves...
+  Saved micro/macro average ROC curves to: output/mimic_cxr/internimage_b/roc_curves/roc_curves_average.png
+
+Generating AUC summary bar chart...
+  Saved AUC bar chart to: output/mimic_cxr/internimage_b/roc_curves/auc_scores_bar_chart.png
+
+✓ All ROC visualizations saved to: output/mimic_cxr/internimage_b/roc_curves
+
+==========================================
+Job finished at: Fri Nov 21 01:10:25 MST 2025
+==========================================
+
+Results saved to:
+  Metrics: output/mimic_cxr/internimage_b/metrics/
+  ROC Curves: output/mimic_cxr/internimage_b/roc_curves/
