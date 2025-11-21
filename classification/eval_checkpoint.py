@@ -66,8 +66,11 @@ def parse_option():
 
 
 def main(config):
-    # Build dataloaders
-    dataset_train, dataset_val, dataset_test, data_loader_train, data_loader_val, data_loader_test, mixup_fn = build_loader(config)
+    # Import build_loader2 for non-distributed evaluation
+    from dataset.build import build_loader2
+    
+    # Build dataloaders (non-distributed)
+    dataset_train, dataset_val, dataset_test, data_loader_train, data_loader_val, data_loader_test, mixup_fn = build_loader2(config)
     
     # Select the appropriate dataloader based on split
     if config.EVAL_SPLIT == 'train':
