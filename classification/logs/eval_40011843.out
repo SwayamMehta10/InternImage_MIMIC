@@ -1,0 +1,1107 @@
+==========================================
+Evaluation job started at: Fri Nov 21 00:05:41 MST 2025
+Job ID: 40011843
+Node: sg020
+==========================================
+Python version:
+Python 3.12.12
+PyTorch version:
+2.9.1+cu126
+GPU info:
+Fri Nov 21 00:05:49 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-80GB          On  |   00000000:01:00.0 Off |                    0 |
+| N/A   38C    P0             82W /  500W |       0MiB /  81920MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+==========================================
+Starting evaluation on test set...
+==========================================
+=> merge config from configs/internimage_b_mimic_cxr_224.yaml
+[2025-11-21 00:05:59 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 195): INFO Evaluation configuration:
+[2025-11-21 00:05:59 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 196): INFO   Checkpoint: output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_best.pth
+[2025-11-21 00:05:59 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 197): INFO   Split: test
+[2025-11-21 00:05:59 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 198): INFO   Batch size: 128
+[2025-11-21 00:05:59 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 199): INFO   Data path: /scratch/smehta90/mimic_splits
+Loading MIMIC-CXR train split from: /scratch/smehta90/mimic_splits/mimic-cxr-2.0.0-chexpert-train.csv
+Filtered from 368945 to 368945 samples for split='train'
+Using column 'path' for image paths
+Loaded 368945 samples for train split
+Label shape: (368945, 14)
+Positive label distribution: [ 63485.  62554.  14236.  35279.   9752.   7404.  10490.  74302. 141239.
+  74745.   3319.  25489.  14001.  81890.]
+Verifying image accessibility...
+  5/5 test images accessible
+Loading MIMIC-CXR val split from: /scratch/smehta90/mimic_splits/mimic-cxr-2.0.0-chexpert-val.csv
+Filtered from 2991 to 2991 samples for split='validate'
+Using column 'path' for image paths
+Loaded 2991 samples for val split
+Label shape: (2991, 14)
+Positive label distribution: [ 528.  534.  113.  326.   90.   34.  109.  560. 1129.  670.   22.  194.
+  112.  726.]
+Verifying image accessibility...
+  5/5 test images accessible
+Loading MIMIC-CXR test split from: /scratch/smehta90/mimic_splits/mimic-cxr-2.0.0-chexpert-test.csv
+Filtered from 5159 to 5159 samples for split='test'
+Using column 'path' for image paths
+Loaded 5159 samples for test split
+Label shape: (5159, 14)
+Positive label distribution: [1034. 1258.  326.  959.  200.  167.  202. 1561.  984. 1542.  119.  539.
+  144. 1457.]
+Verifying image accessibility...
+  5/5 test images accessible
+[2025-11-21 00:06:01 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 89): INFO Evaluating on test set with 5159 samples
+[2025-11-21 00:06:01 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 91): INFO Creating model:intern_image/internimage_b_mimic_cxr_224
+using core type: DCNv3
+using activation layer: GELU
+using main norm layer: LN
+using dpr: linear, 0.5
+level2_post_norm: False
+level2_post_norm_block_ids: None
+res_post_norm: False
+remove_center: False
+[2025-11-21 00:06:03 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 94): INFO InternImage(
+  (patch_embed): StemLayer(
+    (conv1): Conv2d(3, 56, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+    (norm1): Sequential(
+      (0): to_channels_last()
+      (1): LayerNorm((56,), eps=1e-06, elementwise_affine=True)
+      (2): to_channels_first()
+    )
+    (act): GELU(approximate='none')
+    (conv2): Conv2d(56, 112, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+    (norm2): Sequential(
+      (0): to_channels_last()
+      (1): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+    )
+  )
+  (pos_drop): Dropout(p=0.0, inplace=False)
+  (levels): ModuleList(
+    (0): InternImageBlock(
+      (blocks): ModuleList(
+        (0): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(112, 112, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=112)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=112, out_features=126, bias=True)
+            (mask): Linear(in_features=112, out_features=63, bias=True)
+            (input_proj): Linear(in_features=112, out_features=112, bias=True)
+            (output_proj): Linear(in_features=112, out_features=112, bias=True)
+          )
+          (drop_path): Identity()
+          (norm2): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=112, out_features=448, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=448, out_features=112, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (1): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(112, 112, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=112)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=112, out_features=126, bias=True)
+            (mask): Linear(in_features=112, out_features=63, bias=True)
+            (input_proj): Linear(in_features=112, out_features=112, bias=True)
+            (output_proj): Linear(in_features=112, out_features=112, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.016)
+          (norm2): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=112, out_features=448, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=448, out_features=112, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (2): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(112, 112, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=112)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=112, out_features=126, bias=True)
+            (mask): Linear(in_features=112, out_features=63, bias=True)
+            (input_proj): Linear(in_features=112, out_features=112, bias=True)
+            (output_proj): Linear(in_features=112, out_features=112, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.031)
+          (norm2): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=112, out_features=448, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=448, out_features=112, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (3): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(112, 112, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=112)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=112, out_features=126, bias=True)
+            (mask): Linear(in_features=112, out_features=63, bias=True)
+            (input_proj): Linear(in_features=112, out_features=112, bias=True)
+            (output_proj): Linear(in_features=112, out_features=112, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.047)
+          (norm2): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=112, out_features=448, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=448, out_features=112, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+      )
+      (downsample): DownsampleLayer(
+        (conv): Conv2d(112, 224, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (norm): Sequential(
+          (0): to_channels_last()
+          (1): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+        )
+      )
+    )
+    (1): InternImageBlock(
+      (blocks): ModuleList(
+        (0): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(224, 224, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=224)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=224, out_features=252, bias=True)
+            (mask): Linear(in_features=224, out_features=126, bias=True)
+            (input_proj): Linear(in_features=224, out_features=224, bias=True)
+            (output_proj): Linear(in_features=224, out_features=224, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.062)
+          (norm2): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=224, out_features=896, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=896, out_features=224, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (1): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(224, 224, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=224)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=224, out_features=252, bias=True)
+            (mask): Linear(in_features=224, out_features=126, bias=True)
+            (input_proj): Linear(in_features=224, out_features=224, bias=True)
+            (output_proj): Linear(in_features=224, out_features=224, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.078)
+          (norm2): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=224, out_features=896, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=896, out_features=224, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (2): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(224, 224, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=224)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=224, out_features=252, bias=True)
+            (mask): Linear(in_features=224, out_features=126, bias=True)
+            (input_proj): Linear(in_features=224, out_features=224, bias=True)
+            (output_proj): Linear(in_features=224, out_features=224, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.094)
+          (norm2): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=224, out_features=896, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=896, out_features=224, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (3): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(224, 224, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=224)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=224, out_features=252, bias=True)
+            (mask): Linear(in_features=224, out_features=126, bias=True)
+            (input_proj): Linear(in_features=224, out_features=224, bias=True)
+            (output_proj): Linear(in_features=224, out_features=224, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.109)
+          (norm2): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=224, out_features=896, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=896, out_features=224, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+      )
+      (downsample): DownsampleLayer(
+        (conv): Conv2d(224, 448, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (norm): Sequential(
+          (0): to_channels_last()
+          (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+        )
+      )
+    )
+    (2): InternImageBlock(
+      (blocks): ModuleList(
+        (0): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.125)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (1): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.141)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (2): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.156)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (3): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.172)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (4): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.188)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (5): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.203)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (6): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.219)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (7): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.234)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (8): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.250)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (9): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.266)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (10): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.281)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (11): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.297)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (12): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.312)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (13): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.328)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (14): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.344)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (15): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.359)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (16): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.375)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (17): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.391)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (18): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.406)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (19): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.422)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (20): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.438)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+      )
+      (downsample): DownsampleLayer(
+        (conv): Conv2d(448, 896, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (norm): Sequential(
+          (0): to_channels_last()
+          (1): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+        )
+      )
+    )
+    (3): InternImageBlock(
+      (blocks): ModuleList(
+        (0): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(896, 896, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=896)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=896, out_features=1008, bias=True)
+            (mask): Linear(in_features=896, out_features=504, bias=True)
+            (input_proj): Linear(in_features=896, out_features=896, bias=True)
+            (output_proj): Linear(in_features=896, out_features=896, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.453)
+          (norm2): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=896, out_features=3584, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=3584, out_features=896, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (1): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(896, 896, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=896)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=896, out_features=1008, bias=True)
+            (mask): Linear(in_features=896, out_features=504, bias=True)
+            (input_proj): Linear(in_features=896, out_features=896, bias=True)
+            (output_proj): Linear(in_features=896, out_features=896, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.469)
+          (norm2): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=896, out_features=3584, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=3584, out_features=896, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (2): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(896, 896, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=896)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=896, out_features=1008, bias=True)
+            (mask): Linear(in_features=896, out_features=504, bias=True)
+            (input_proj): Linear(in_features=896, out_features=896, bias=True)
+            (output_proj): Linear(in_features=896, out_features=896, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.484)
+          (norm2): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=896, out_features=3584, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=3584, out_features=896, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (3): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(896, 896, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=896)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=896, out_features=1008, bias=True)
+            (mask): Linear(in_features=896, out_features=504, bias=True)
+            (input_proj): Linear(in_features=896, out_features=896, bias=True)
+            (output_proj): Linear(in_features=896, out_features=896, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.500)
+          (norm2): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=896, out_features=3584, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=3584, out_features=896, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+      )
+    )
+  )
+  (conv_head): Sequential(
+    (0): Conv2d(896, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (1): Sequential(
+      (0): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (2): GELU(approximate='none')
+  )
+  (head): Linear(in_features=1344, out_features=14, bias=True)
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+)
+[2025-11-21 00:06:03 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 97): INFO number of params: 96135662
+[2025-11-21 00:06:03 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 103): INFO Loading checkpoint from output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_best.pth
+[2025-11-21 00:06:05 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 108): INFO Checkpoint loaded: <All keys matched successfully>
+[2025-11-21 00:06:05 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 109): INFO Checkpoint was saved at epoch 19
+[2025-11-21 00:06:05 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 112): INFO Best validation AUC-ROC in checkpoint: 0.8114
+[2025-11-21 00:06:05 internimage_b_mimic_cxr_224_eval](eval_checkpoint.py 118): INFO Starting evaluation on test set...
+==========================================
+Evaluation finished at: Fri Nov 21 00:07:55 MST 2025
+==========================================
