@@ -1,0 +1,2914 @@
+/etc/python/sitecustomize.py:117: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  mod = _original_import(name, globals, locals, fromlist, level)
+/scratch/smehta90/InternImage_MIMIC/classification/ops_dcnv3/functions/dcnv3_func.py:22: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @custom_fwd
+/scratch/smehta90/InternImage_MIMIC/classification/ops_dcnv3/functions/dcnv3_func.py:58: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
+  @custom_bwd
+/home/smehta90/.conda/envs/INTERNIMAGE_ENV/lib/python3.12/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+=> merge config from configs/internimage_b_mimic_cxr_224.yaml
+RANK and WORLD_SIZE in environ: 0/1
+/home/smehta90/.conda/envs/INTERNIMAGE_ENV/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4876: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  warnings.warn(  # warn only once
+[rank0]:[W1118 11:51:51.828728670 ProcessGroupNCCL.cpp:5072] Guessing device ID based on global rank. This can cause a hang if rank to GPU mapping is heterogeneous. You can specify device_id in init_process_group()
+O1 O1
+[2025-11-18 11:51:51 internimage_b_mimic_cxr_224](main.py 729): INFO Full config saved to output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/config.json
+[2025-11-18 11:51:51 internimage_b_mimic_cxr_224](main.py 732): INFO AMP_OPT_LEVEL: O1
+AMP_TYPE: float16
+AUG:
+  AUTO_AUGMENT: none
+  COLOR_JITTER: 0.0
+  CUTMIX: 0.0
+  CUTMIX_MINMAX: null
+  MEAN:
+  - 0.485
+  - 0.456
+  - 0.406
+  MIXUP: 0.0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 0.0
+  MIXUP_SWITCH_PROB: 0.0
+  RANDOM_RESIZED_CROP: false
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.1
+  STD:
+  - 0.229
+  - 0.224
+  - 0.225
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: mimic_cxr
+  DATA_PATH: /scratch/smehta90/mimic_splits
+  IMG_ON_MEMORY: false
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 8
+  PIN_MEMORY: true
+  ZIP_MODE: false
+EVAL_22K_TO_1K: false
+EVAL_FREQ: 1
+EVAL_MODE: false
+LOCAL_RANK: 0
+MODEL:
+  DROP_PATH_RATE: 0.5
+  DROP_PATH_TYPE: linear
+  DROP_RATE: 0.0
+  INTERN_IMAGE:
+    CENTER_FEATURE_SCALE: false
+    CHANNELS: 112
+    CORE_OP: DCNv3
+    DEPTHS:
+    - 4
+    - 4
+    - 21
+    - 4
+    DW_KERNEL_SIZE: null
+    GROUPS:
+    - 7
+    - 14
+    - 28
+    - 56
+    LAYER_SCALE: 1.0e-05
+    LEVEL2_POST_NORM: false
+    LEVEL2_POST_NORM_BLOCK_IDS: null
+    MLP_RATIO: 4.0
+    OFFSET_SCALE: 1.0
+    POST_NORM: true
+    REMOVE_CENTER: false
+    RES_POST_NORM: false
+    USE_CLIP_PROJECTOR: false
+  LABEL_SMOOTHING: 0.0
+  NAME: internimage_b_mimic_cxr_224
+  NUM_CLASSES: 14
+  PRETRAINED: pretrained/internimage_b_1k_224.pth
+  RESUME: ''
+  TYPE: intern_image
+OUTPUT: output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224
+PRINT_FREQ: 50
+SAVE_CKPT_NUM: 1
+SAVE_FREQ: 1
+SEED: 42
+TAG: run1
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 1
+  AUTO_RESUME: true
+  BASE_LR: 0.0001
+  CLIP_GRAD: 5.0
+  EMA:
+    DECAY: 0.9999
+    ENABLE: true
+  EPOCHS: 20
+  LR_LAYER_DECAY: true
+  LR_LAYER_DECAY_RATIO: 0.875
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MIN_LR: 1.0e-06
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    DCN_LR_MUL: null
+    EPS: 1.0e-08
+    FREEZE_BACKBONE: null
+    MOMENTUM: 0.9
+    NAME: adamw
+    USE_ZERO: false
+  RAND_INIT_FT_HEAD: true
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  WARMUP_EPOCHS: 2
+  WARMUP_LR: 5.0e-07
+  WEIGHT_DECAY: 0.05
+
+Loading MIMIC-CXR train split from: /scratch/smehta90/mimic_splits/mimic-cxr-2.0.0-chexpert-train.csv
+Filtered from 368945 to 368945 samples for split='train'
+Using column 'path' for image paths
+Loaded 368945 samples for train split
+Label shape: (368945, 14)
+Positive label distribution: [ 63485.  62554.  14236.  35279.   9752.   7404.  10490.  74302. 141239.
+  74745.   3319.  25489.  14001.  81890.]
+Verifying image accessibility...
+  5/5 test images accessible
+local rank 0 / global rank 0successfully build train dataset
+Loading MIMIC-CXR val split from: /scratch/smehta90/mimic_splits/mimic-cxr-2.0.0-chexpert-val.csv
+Filtered from 2991 to 2991 samples for split='validate'
+Using column 'path' for image paths
+Loaded 2991 samples for val split
+Label shape: (2991, 14)
+Positive label distribution: [ 528.  534.  113.  326.   90.   34.  109.  560. 1129.  670.   22.  194.
+  112.  726.]
+Verifying image accessibility...
+  5/5 test images accessible
+local rank 0 / global rank 0successfully build val dataset
+Loading MIMIC-CXR test split from: /scratch/smehta90/mimic_splits/mimic-cxr-2.0.0-chexpert-test.csv
+Filtered from 5159 to 5159 samples for split='test'
+Using column 'path' for image paths
+Loaded 5159 samples for test split
+Label shape: (5159, 14)
+Positive label distribution: [1034. 1258.  326.  959.  200.  167.  202. 1561.  984. 1542.  119.  539.
+  144. 1457.]
+Verifying image accessibility...
+  5/5 test images accessible
+local rank 0 / global rank 0successfully build test dataset
+[2025-11-18 11:51:53 internimage_b_mimic_cxr_224](main.py 175): INFO Creating model:intern_image/internimage_b_mimic_cxr_224
+using core type: DCNv3
+using activation layer: GELU
+using main norm layer: LN
+using dpr: linear, 0.5
+level2_post_norm: False
+level2_post_norm_block_ids: None
+res_post_norm: False
+remove_center: False
+[2025-11-18 11:51:54 internimage_b_mimic_cxr_224](main.py 178): INFO InternImage(
+  (patch_embed): StemLayer(
+    (conv1): Conv2d(3, 56, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+    (norm1): Sequential(
+      (0): to_channels_last()
+      (1): LayerNorm((56,), eps=1e-06, elementwise_affine=True)
+      (2): to_channels_first()
+    )
+    (act): GELU(approximate='none')
+    (conv2): Conv2d(56, 112, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+    (norm2): Sequential(
+      (0): to_channels_last()
+      (1): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+    )
+  )
+  (pos_drop): Dropout(p=0.0, inplace=False)
+  (levels): ModuleList(
+    (0): InternImageBlock(
+      (blocks): ModuleList(
+        (0): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(112, 112, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=112)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=112, out_features=126, bias=True)
+            (mask): Linear(in_features=112, out_features=63, bias=True)
+            (input_proj): Linear(in_features=112, out_features=112, bias=True)
+            (output_proj): Linear(in_features=112, out_features=112, bias=True)
+          )
+          (drop_path): Identity()
+          (norm2): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=112, out_features=448, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=448, out_features=112, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (1): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(112, 112, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=112)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=112, out_features=126, bias=True)
+            (mask): Linear(in_features=112, out_features=63, bias=True)
+            (input_proj): Linear(in_features=112, out_features=112, bias=True)
+            (output_proj): Linear(in_features=112, out_features=112, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.016)
+          (norm2): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=112, out_features=448, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=448, out_features=112, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (2): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(112, 112, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=112)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=112, out_features=126, bias=True)
+            (mask): Linear(in_features=112, out_features=63, bias=True)
+            (input_proj): Linear(in_features=112, out_features=112, bias=True)
+            (output_proj): Linear(in_features=112, out_features=112, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.031)
+          (norm2): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=112, out_features=448, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=448, out_features=112, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (3): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(112, 112, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=112)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=112, out_features=126, bias=True)
+            (mask): Linear(in_features=112, out_features=63, bias=True)
+            (input_proj): Linear(in_features=112, out_features=112, bias=True)
+            (output_proj): Linear(in_features=112, out_features=112, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.047)
+          (norm2): Sequential(
+            (0): LayerNorm((112,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=112, out_features=448, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=448, out_features=112, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+      )
+      (downsample): DownsampleLayer(
+        (conv): Conv2d(112, 224, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (norm): Sequential(
+          (0): to_channels_last()
+          (1): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+        )
+      )
+    )
+    (1): InternImageBlock(
+      (blocks): ModuleList(
+        (0): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(224, 224, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=224)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=224, out_features=252, bias=True)
+            (mask): Linear(in_features=224, out_features=126, bias=True)
+            (input_proj): Linear(in_features=224, out_features=224, bias=True)
+            (output_proj): Linear(in_features=224, out_features=224, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.062)
+          (norm2): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=224, out_features=896, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=896, out_features=224, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (1): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(224, 224, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=224)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=224, out_features=252, bias=True)
+            (mask): Linear(in_features=224, out_features=126, bias=True)
+            (input_proj): Linear(in_features=224, out_features=224, bias=True)
+            (output_proj): Linear(in_features=224, out_features=224, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.078)
+          (norm2): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=224, out_features=896, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=896, out_features=224, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (2): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(224, 224, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=224)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=224, out_features=252, bias=True)
+            (mask): Linear(in_features=224, out_features=126, bias=True)
+            (input_proj): Linear(in_features=224, out_features=224, bias=True)
+            (output_proj): Linear(in_features=224, out_features=224, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.094)
+          (norm2): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=224, out_features=896, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=896, out_features=224, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (3): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(224, 224, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=224)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=224, out_features=252, bias=True)
+            (mask): Linear(in_features=224, out_features=126, bias=True)
+            (input_proj): Linear(in_features=224, out_features=224, bias=True)
+            (output_proj): Linear(in_features=224, out_features=224, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.109)
+          (norm2): Sequential(
+            (0): LayerNorm((224,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=224, out_features=896, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=896, out_features=224, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+      )
+      (downsample): DownsampleLayer(
+        (conv): Conv2d(224, 448, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (norm): Sequential(
+          (0): to_channels_last()
+          (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+        )
+      )
+    )
+    (2): InternImageBlock(
+      (blocks): ModuleList(
+        (0): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.125)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (1): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.141)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (2): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.156)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (3): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.172)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (4): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.188)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (5): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.203)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (6): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.219)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (7): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.234)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (8): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.250)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (9): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.266)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (10): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.281)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (11): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.297)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (12): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.312)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (13): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.328)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (14): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.344)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (15): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.359)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (16): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.375)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (17): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.391)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (18): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.406)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (19): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.422)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (20): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(448, 448, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=448)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=448, out_features=504, bias=True)
+            (mask): Linear(in_features=448, out_features=252, bias=True)
+            (input_proj): Linear(in_features=448, out_features=448, bias=True)
+            (output_proj): Linear(in_features=448, out_features=448, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.438)
+          (norm2): Sequential(
+            (0): LayerNorm((448,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=448, out_features=1792, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=1792, out_features=448, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+      )
+      (downsample): DownsampleLayer(
+        (conv): Conv2d(448, 896, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (norm): Sequential(
+          (0): to_channels_last()
+          (1): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+        )
+      )
+    )
+    (3): InternImageBlock(
+      (blocks): ModuleList(
+        (0): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(896, 896, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=896)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=896, out_features=1008, bias=True)
+            (mask): Linear(in_features=896, out_features=504, bias=True)
+            (input_proj): Linear(in_features=896, out_features=896, bias=True)
+            (output_proj): Linear(in_features=896, out_features=896, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.453)
+          (norm2): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=896, out_features=3584, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=3584, out_features=896, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (1): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(896, 896, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=896)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=896, out_features=1008, bias=True)
+            (mask): Linear(in_features=896, out_features=504, bias=True)
+            (input_proj): Linear(in_features=896, out_features=896, bias=True)
+            (output_proj): Linear(in_features=896, out_features=896, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.469)
+          (norm2): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=896, out_features=3584, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=3584, out_features=896, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (2): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(896, 896, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=896)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=896, out_features=1008, bias=True)
+            (mask): Linear(in_features=896, out_features=504, bias=True)
+            (input_proj): Linear(in_features=896, out_features=896, bias=True)
+            (output_proj): Linear(in_features=896, out_features=896, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.484)
+          (norm2): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=896, out_features=3584, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=3584, out_features=896, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+        (3): InternImageLayer(
+          (norm1): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (dcn): DCNv3(
+            (dw_conv): Sequential(
+              (0): Conv2d(896, 896, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=896)
+              (1): Sequential(
+                (0): to_channels_last()
+                (1): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+              )
+              (2): GELU(approximate='none')
+            )
+            (offset): Linear(in_features=896, out_features=1008, bias=True)
+            (mask): Linear(in_features=896, out_features=504, bias=True)
+            (input_proj): Linear(in_features=896, out_features=896, bias=True)
+            (output_proj): Linear(in_features=896, out_features=896, bias=True)
+          )
+          (drop_path): DropPath(drop_prob=0.500)
+          (norm2): Sequential(
+            (0): LayerNorm((896,), eps=1e-06, elementwise_affine=True)
+          )
+          (mlp): MLPLayer(
+            (fc1): Linear(in_features=896, out_features=3584, bias=True)
+            (act): GELU(approximate='none')
+            (fc2): Linear(in_features=3584, out_features=896, bias=True)
+            (drop): Dropout(p=0.0, inplace=False)
+          )
+        )
+      )
+    )
+  )
+  (conv_head): Sequential(
+    (0): Conv2d(896, 1344, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (1): Sequential(
+      (0): BatchNorm2d(1344, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (2): GELU(approximate='none')
+  )
+  (head): Linear(in_features=1344, out_features=14, bias=True)
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+)
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+layer-wise lr decay is used !
+no decay params: {no_decay_name}
+lr_ratio_params:
+patch_embed.conv1.weight (0.0001, 0.013939837037683136, 0.05, True)
+patch_embed.conv1.bias (0.0001, 0.013939837037683136, 0.0, True)
+patch_embed.norm1.1.weight (0.0001, 0.013939837037683136, 0.0, True)
+patch_embed.norm1.1.bias (0.0001, 0.013939837037683136, 0.0, True)
+patch_embed.conv2.weight (0.0001, 0.013939837037683136, 0.05, True)
+patch_embed.conv2.bias (0.0001, 0.013939837037683136, 0.0, True)
+patch_embed.norm2.1.weight (0.0001, 0.013939837037683136, 0.0, True)
+patch_embed.norm2.1.bias (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.gamma1 (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.gamma2 (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.norm1.0.weight (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.norm1.0.bias (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.dcn.dw_conv.0.weight (0.0001, 0.013939837037683136, 0.05, True)
+levels.0.blocks.0.dcn.dw_conv.0.bias (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.dcn.dw_conv.1.1.weight (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.dcn.dw_conv.1.1.bias (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.dcn.offset.weight (0.0001, 0.013939837037683136, 0.05, True)
+levels.0.blocks.0.dcn.offset.bias (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.dcn.mask.weight (0.0001, 0.013939837037683136, 0.05, True)
+levels.0.blocks.0.dcn.mask.bias (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.dcn.input_proj.weight (0.0001, 0.013939837037683136, 0.05, True)
+levels.0.blocks.0.dcn.input_proj.bias (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.dcn.output_proj.weight (0.0001, 0.013939837037683136, 0.05, True)
+levels.0.blocks.0.dcn.output_proj.bias (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.norm2.0.weight (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.norm2.0.bias (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.mlp.fc1.weight (0.0001, 0.013939837037683136, 0.05, True)
+levels.0.blocks.0.mlp.fc1.bias (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.0.mlp.fc2.weight (0.0001, 0.013939837037683136, 0.05, True)
+levels.0.blocks.0.mlp.fc2.bias (0.0001, 0.013939837037683136, 0.0, True)
+levels.0.blocks.1.gamma1 (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.gamma2 (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.norm1.0.weight (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.norm1.0.bias (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.dcn.dw_conv.0.weight (0.0001, 0.015931242328780727, 0.05, True)
+levels.0.blocks.1.dcn.dw_conv.0.bias (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.dcn.dw_conv.1.1.weight (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.dcn.dw_conv.1.1.bias (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.dcn.offset.weight (0.0001, 0.015931242328780727, 0.05, True)
+levels.0.blocks.1.dcn.offset.bias (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.dcn.mask.weight (0.0001, 0.015931242328780727, 0.05, True)
+levels.0.blocks.1.dcn.mask.bias (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.dcn.input_proj.weight (0.0001, 0.015931242328780727, 0.05, True)
+levels.0.blocks.1.dcn.input_proj.bias (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.dcn.output_proj.weight (0.0001, 0.015931242328780727, 0.05, True)
+levels.0.blocks.1.dcn.output_proj.bias (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.norm2.0.weight (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.norm2.0.bias (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.mlp.fc1.weight (0.0001, 0.015931242328780727, 0.05, True)
+levels.0.blocks.1.mlp.fc1.bias (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.1.mlp.fc2.weight (0.0001, 0.015931242328780727, 0.05, True)
+levels.0.blocks.1.mlp.fc2.bias (0.0001, 0.015931242328780727, 0.0, True)
+levels.0.blocks.2.gamma1 (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.gamma2 (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.norm1.0.weight (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.norm1.0.bias (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.dcn.dw_conv.0.weight (0.0001, 0.018207134090035115, 0.05, True)
+levels.0.blocks.2.dcn.dw_conv.0.bias (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.dcn.dw_conv.1.1.weight (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.dcn.dw_conv.1.1.bias (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.dcn.offset.weight (0.0001, 0.018207134090035115, 0.05, True)
+levels.0.blocks.2.dcn.offset.bias (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.dcn.mask.weight (0.0001, 0.018207134090035115, 0.05, True)
+levels.0.blocks.2.dcn.mask.bias (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.dcn.input_proj.weight (0.0001, 0.018207134090035115, 0.05, True)
+levels.0.blocks.2.dcn.input_proj.bias (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.dcn.output_proj.weight (0.0001, 0.018207134090035115, 0.05, True)
+levels.0.blocks.2.dcn.output_proj.bias (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.norm2.0.weight (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.norm2.0.bias (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.mlp.fc1.weight (0.0001, 0.018207134090035115, 0.05, True)
+levels.0.blocks.2.mlp.fc1.bias (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.2.mlp.fc2.weight (0.0001, 0.018207134090035115, 0.05, True)
+levels.0.blocks.2.mlp.fc2.bias (0.0001, 0.018207134090035115, 0.0, True)
+levels.0.blocks.3.gamma1 (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.gamma2 (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.norm1.0.weight (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.norm1.0.bias (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.dcn.dw_conv.0.weight (0.0001, 0.02080815324575442, 0.05, True)
+levels.0.blocks.3.dcn.dw_conv.0.bias (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.dcn.dw_conv.1.1.weight (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.dcn.dw_conv.1.1.bias (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.dcn.offset.weight (0.0001, 0.02080815324575442, 0.05, True)
+levels.0.blocks.3.dcn.offset.bias (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.dcn.mask.weight (0.0001, 0.02080815324575442, 0.05, True)
+levels.0.blocks.3.dcn.mask.bias (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.dcn.input_proj.weight (0.0001, 0.02080815324575442, 0.05, True)
+levels.0.blocks.3.dcn.input_proj.bias (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.dcn.output_proj.weight (0.0001, 0.02080815324575442, 0.05, True)
+levels.0.blocks.3.dcn.output_proj.bias (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.norm2.0.weight (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.norm2.0.bias (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.mlp.fc1.weight (0.0001, 0.02080815324575442, 0.05, True)
+levels.0.blocks.3.mlp.fc1.bias (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.blocks.3.mlp.fc2.weight (0.0001, 0.02080815324575442, 0.05, True)
+levels.0.blocks.3.mlp.fc2.bias (0.0001, 0.02080815324575442, 0.0, True)
+levels.0.downsample.conv.weight (0.0001, 0.02378074656657648, 0.05, True)
+levels.0.downsample.norm.1.weight (0.0001, 0.02378074656657648, 0.0, True)
+levels.0.downsample.norm.1.bias (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.gamma1 (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.gamma2 (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.norm1.0.weight (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.norm1.0.bias (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.dcn.dw_conv.0.weight (0.0001, 0.02378074656657648, 0.05, True)
+levels.1.blocks.0.dcn.dw_conv.0.bias (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.dcn.dw_conv.1.1.weight (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.dcn.dw_conv.1.1.bias (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.dcn.offset.weight (0.0001, 0.02378074656657648, 0.05, True)
+levels.1.blocks.0.dcn.offset.bias (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.dcn.mask.weight (0.0001, 0.02378074656657648, 0.05, True)
+levels.1.blocks.0.dcn.mask.bias (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.dcn.input_proj.weight (0.0001, 0.02378074656657648, 0.05, True)
+levels.1.blocks.0.dcn.input_proj.bias (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.dcn.output_proj.weight (0.0001, 0.02378074656657648, 0.05, True)
+levels.1.blocks.0.dcn.output_proj.bias (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.norm2.0.weight (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.norm2.0.bias (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.mlp.fc1.weight (0.0001, 0.02378074656657648, 0.05, True)
+levels.1.blocks.0.mlp.fc1.bias (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.0.mlp.fc2.weight (0.0001, 0.02378074656657648, 0.05, True)
+levels.1.blocks.0.mlp.fc2.bias (0.0001, 0.02378074656657648, 0.0, True)
+levels.1.blocks.1.gamma1 (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.gamma2 (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.norm1.0.weight (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.norm1.0.bias (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.dcn.dw_conv.0.weight (0.0001, 0.027177996076087403, 0.05, True)
+levels.1.blocks.1.dcn.dw_conv.0.bias (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.dcn.dw_conv.1.1.weight (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.dcn.dw_conv.1.1.bias (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.dcn.offset.weight (0.0001, 0.027177996076087403, 0.05, True)
+levels.1.blocks.1.dcn.offset.bias (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.dcn.mask.weight (0.0001, 0.027177996076087403, 0.05, True)
+levels.1.blocks.1.dcn.mask.bias (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.dcn.input_proj.weight (0.0001, 0.027177996076087403, 0.05, True)
+levels.1.blocks.1.dcn.input_proj.bias (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.dcn.output_proj.weight (0.0001, 0.027177996076087403, 0.05, True)
+levels.1.blocks.1.dcn.output_proj.bias (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.norm2.0.weight (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.norm2.0.bias (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.mlp.fc1.weight (0.0001, 0.027177996076087403, 0.05, True)
+levels.1.blocks.1.mlp.fc1.bias (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.1.mlp.fc2.weight (0.0001, 0.027177996076087403, 0.05, True)
+levels.1.blocks.1.mlp.fc2.bias (0.0001, 0.027177996076087403, 0.0, True)
+levels.1.blocks.2.gamma1 (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.gamma2 (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.norm1.0.weight (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.norm1.0.bias (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.dcn.dw_conv.0.weight (0.0001, 0.03106056694409989, 0.05, True)
+levels.1.blocks.2.dcn.dw_conv.0.bias (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.dcn.dw_conv.1.1.weight (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.dcn.dw_conv.1.1.bias (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.dcn.offset.weight (0.0001, 0.03106056694409989, 0.05, True)
+levels.1.blocks.2.dcn.offset.bias (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.dcn.mask.weight (0.0001, 0.03106056694409989, 0.05, True)
+levels.1.blocks.2.dcn.mask.bias (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.dcn.input_proj.weight (0.0001, 0.03106056694409989, 0.05, True)
+levels.1.blocks.2.dcn.input_proj.bias (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.dcn.output_proj.weight (0.0001, 0.03106056694409989, 0.05, True)
+levels.1.blocks.2.dcn.output_proj.bias (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.norm2.0.weight (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.norm2.0.bias (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.mlp.fc1.weight (0.0001, 0.03106056694409989, 0.05, True)
+levels.1.blocks.2.mlp.fc1.bias (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.2.mlp.fc2.weight (0.0001, 0.03106056694409989, 0.05, True)
+levels.1.blocks.2.mlp.fc2.bias (0.0001, 0.03106056694409989, 0.0, True)
+levels.1.blocks.3.gamma1 (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.gamma2 (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.norm1.0.weight (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.norm1.0.bias (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.dcn.dw_conv.0.weight (0.0001, 0.03549779079325702, 0.05, True)
+levels.1.blocks.3.dcn.dw_conv.0.bias (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.dcn.dw_conv.1.1.weight (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.dcn.dw_conv.1.1.bias (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.dcn.offset.weight (0.0001, 0.03549779079325702, 0.05, True)
+levels.1.blocks.3.dcn.offset.bias (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.dcn.mask.weight (0.0001, 0.03549779079325702, 0.05, True)
+levels.1.blocks.3.dcn.mask.bias (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.dcn.input_proj.weight (0.0001, 0.03549779079325702, 0.05, True)
+levels.1.blocks.3.dcn.input_proj.bias (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.dcn.output_proj.weight (0.0001, 0.03549779079325702, 0.05, True)
+levels.1.blocks.3.dcn.output_proj.bias (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.norm2.0.weight (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.norm2.0.bias (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.mlp.fc1.weight (0.0001, 0.03549779079325702, 0.05, True)
+levels.1.blocks.3.mlp.fc1.bias (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.blocks.3.mlp.fc2.weight (0.0001, 0.03549779079325702, 0.05, True)
+levels.1.blocks.3.mlp.fc2.bias (0.0001, 0.03549779079325702, 0.0, True)
+levels.1.downsample.conv.weight (0.0001, 0.040568903763722304, 0.05, True)
+levels.1.downsample.norm.1.weight (0.0001, 0.040568903763722304, 0.0, True)
+levels.1.downsample.norm.1.bias (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.gamma1 (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.gamma2 (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.norm1.0.weight (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.norm1.0.bias (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.dcn.dw_conv.0.weight (0.0001, 0.040568903763722304, 0.05, True)
+levels.2.blocks.0.dcn.dw_conv.0.bias (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.dcn.dw_conv.1.1.weight (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.dcn.dw_conv.1.1.bias (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.dcn.offset.weight (0.0001, 0.040568903763722304, 0.05, True)
+levels.2.blocks.0.dcn.offset.bias (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.dcn.mask.weight (0.0001, 0.040568903763722304, 0.05, True)
+levels.2.blocks.0.dcn.mask.bias (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.dcn.input_proj.weight (0.0001, 0.040568903763722304, 0.05, True)
+levels.2.blocks.0.dcn.input_proj.bias (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.dcn.output_proj.weight (0.0001, 0.040568903763722304, 0.05, True)
+levels.2.blocks.0.dcn.output_proj.bias (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.norm2.0.weight (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.norm2.0.bias (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.mlp.fc1.weight (0.0001, 0.040568903763722304, 0.05, True)
+levels.2.blocks.0.mlp.fc1.bias (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.0.mlp.fc2.weight (0.0001, 0.040568903763722304, 0.05, True)
+levels.2.blocks.0.mlp.fc2.bias (0.0001, 0.040568903763722304, 0.0, True)
+levels.2.blocks.1.gamma1 (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.gamma2 (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.norm1.0.weight (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.norm1.0.bias (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.dcn.dw_conv.0.weight (0.0001, 0.04636446144425406, 0.05, True)
+levels.2.blocks.1.dcn.dw_conv.0.bias (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.dcn.dw_conv.1.1.weight (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.dcn.dw_conv.1.1.bias (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.dcn.offset.weight (0.0001, 0.04636446144425406, 0.05, True)
+levels.2.blocks.1.dcn.offset.bias (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.dcn.mask.weight (0.0001, 0.04636446144425406, 0.05, True)
+levels.2.blocks.1.dcn.mask.bias (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.dcn.input_proj.weight (0.0001, 0.04636446144425406, 0.05, True)
+levels.2.blocks.1.dcn.input_proj.bias (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.dcn.output_proj.weight (0.0001, 0.04636446144425406, 0.05, True)
+levels.2.blocks.1.dcn.output_proj.bias (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.norm2.0.weight (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.norm2.0.bias (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.mlp.fc1.weight (0.0001, 0.04636446144425406, 0.05, True)
+levels.2.blocks.1.mlp.fc1.bias (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.1.mlp.fc2.weight (0.0001, 0.04636446144425406, 0.05, True)
+levels.2.blocks.1.mlp.fc2.bias (0.0001, 0.04636446144425406, 0.0, True)
+levels.2.blocks.2.gamma1 (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.gamma2 (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.norm1.0.weight (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.norm1.0.bias (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.dcn.dw_conv.0.weight (0.0001, 0.05298795593629036, 0.05, True)
+levels.2.blocks.2.dcn.dw_conv.0.bias (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.dcn.dw_conv.1.1.weight (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.dcn.dw_conv.1.1.bias (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.dcn.offset.weight (0.0001, 0.05298795593629036, 0.05, True)
+levels.2.blocks.2.dcn.offset.bias (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.dcn.mask.weight (0.0001, 0.05298795593629036, 0.05, True)
+levels.2.blocks.2.dcn.mask.bias (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.dcn.input_proj.weight (0.0001, 0.05298795593629036, 0.05, True)
+levels.2.blocks.2.dcn.input_proj.bias (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.dcn.output_proj.weight (0.0001, 0.05298795593629036, 0.05, True)
+levels.2.blocks.2.dcn.output_proj.bias (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.norm2.0.weight (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.norm2.0.bias (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.mlp.fc1.weight (0.0001, 0.05298795593629036, 0.05, True)
+levels.2.blocks.2.mlp.fc1.bias (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.2.mlp.fc2.weight (0.0001, 0.05298795593629036, 0.05, True)
+levels.2.blocks.2.mlp.fc2.bias (0.0001, 0.05298795593629036, 0.0, True)
+levels.2.blocks.3.gamma1 (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.gamma2 (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.norm1.0.weight (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.norm1.0.bias (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.dcn.dw_conv.0.weight (0.0001, 0.06055766392718898, 0.05, True)
+levels.2.blocks.3.dcn.dw_conv.0.bias (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.dcn.dw_conv.1.1.weight (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.dcn.dw_conv.1.1.bias (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.dcn.offset.weight (0.0001, 0.06055766392718898, 0.05, True)
+levels.2.blocks.3.dcn.offset.bias (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.dcn.mask.weight (0.0001, 0.06055766392718898, 0.05, True)
+levels.2.blocks.3.dcn.mask.bias (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.dcn.input_proj.weight (0.0001, 0.06055766392718898, 0.05, True)
+levels.2.blocks.3.dcn.input_proj.bias (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.dcn.output_proj.weight (0.0001, 0.06055766392718898, 0.05, True)
+levels.2.blocks.3.dcn.output_proj.bias (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.norm2.0.weight (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.norm2.0.bias (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.mlp.fc1.weight (0.0001, 0.06055766392718898, 0.05, True)
+levels.2.blocks.3.mlp.fc1.bias (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.3.mlp.fc2.weight (0.0001, 0.06055766392718898, 0.05, True)
+levels.2.blocks.3.mlp.fc2.bias (0.0001, 0.06055766392718898, 0.0, True)
+levels.2.blocks.4.gamma1 (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.gamma2 (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.norm1.0.weight (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.norm1.0.bias (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.dcn.dw_conv.0.weight (0.0001, 0.06920875877393026, 0.05, True)
+levels.2.blocks.4.dcn.dw_conv.0.bias (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.dcn.dw_conv.1.1.weight (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.dcn.dw_conv.1.1.bias (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.dcn.offset.weight (0.0001, 0.06920875877393026, 0.05, True)
+levels.2.blocks.4.dcn.offset.bias (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.dcn.mask.weight (0.0001, 0.06920875877393026, 0.05, True)
+levels.2.blocks.4.dcn.mask.bias (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.dcn.input_proj.weight (0.0001, 0.06920875877393026, 0.05, True)
+levels.2.blocks.4.dcn.input_proj.bias (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.dcn.output_proj.weight (0.0001, 0.06920875877393026, 0.05, True)
+levels.2.blocks.4.dcn.output_proj.bias (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.norm2.0.weight (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.norm2.0.bias (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.mlp.fc1.weight (0.0001, 0.06920875877393026, 0.05, True)
+levels.2.blocks.4.mlp.fc1.bias (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.4.mlp.fc2.weight (0.0001, 0.06920875877393026, 0.05, True)
+levels.2.blocks.4.mlp.fc2.bias (0.0001, 0.06920875877393026, 0.0, True)
+levels.2.blocks.5.gamma1 (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.gamma2 (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.norm1.0.weight (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.norm1.0.bias (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.dcn.dw_conv.0.weight (0.0001, 0.07909572431306316, 0.05, True)
+levels.2.blocks.5.dcn.dw_conv.0.bias (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.dcn.dw_conv.1.1.weight (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.dcn.dw_conv.1.1.bias (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.dcn.offset.weight (0.0001, 0.07909572431306316, 0.05, True)
+levels.2.blocks.5.dcn.offset.bias (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.dcn.mask.weight (0.0001, 0.07909572431306316, 0.05, True)
+levels.2.blocks.5.dcn.mask.bias (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.dcn.input_proj.weight (0.0001, 0.07909572431306316, 0.05, True)
+levels.2.blocks.5.dcn.input_proj.bias (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.dcn.output_proj.weight (0.0001, 0.07909572431306316, 0.05, True)
+levels.2.blocks.5.dcn.output_proj.bias (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.norm2.0.weight (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.norm2.0.bias (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.mlp.fc1.weight (0.0001, 0.07909572431306316, 0.05, True)
+levels.2.blocks.5.mlp.fc1.bias (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.5.mlp.fc2.weight (0.0001, 0.07909572431306316, 0.05, True)
+levels.2.blocks.5.mlp.fc2.bias (0.0001, 0.07909572431306316, 0.0, True)
+levels.2.blocks.6.gamma1 (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.gamma2 (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.norm1.0.weight (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.norm1.0.bias (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.dcn.dw_conv.0.weight (0.0001, 0.09039511350064361, 0.05, True)
+levels.2.blocks.6.dcn.dw_conv.0.bias (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.dcn.dw_conv.1.1.weight (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.dcn.dw_conv.1.1.bias (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.dcn.offset.weight (0.0001, 0.09039511350064361, 0.05, True)
+levels.2.blocks.6.dcn.offset.bias (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.dcn.mask.weight (0.0001, 0.09039511350064361, 0.05, True)
+levels.2.blocks.6.dcn.mask.bias (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.dcn.input_proj.weight (0.0001, 0.09039511350064361, 0.05, True)
+levels.2.blocks.6.dcn.input_proj.bias (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.dcn.output_proj.weight (0.0001, 0.09039511350064361, 0.05, True)
+levels.2.blocks.6.dcn.output_proj.bias (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.norm2.0.weight (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.norm2.0.bias (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.mlp.fc1.weight (0.0001, 0.09039511350064361, 0.05, True)
+levels.2.blocks.6.mlp.fc1.bias (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.6.mlp.fc2.weight (0.0001, 0.09039511350064361, 0.05, True)
+levels.2.blocks.6.mlp.fc2.bias (0.0001, 0.09039511350064361, 0.0, True)
+levels.2.blocks.7.gamma1 (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.gamma2 (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.norm1.0.weight (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.norm1.0.bias (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.dcn.dw_conv.0.weight (0.0001, 0.1033087011435927, 0.05, True)
+levels.2.blocks.7.dcn.dw_conv.0.bias (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.dcn.dw_conv.1.1.weight (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.dcn.dw_conv.1.1.bias (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.dcn.offset.weight (0.0001, 0.1033087011435927, 0.05, True)
+levels.2.blocks.7.dcn.offset.bias (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.dcn.mask.weight (0.0001, 0.1033087011435927, 0.05, True)
+levels.2.blocks.7.dcn.mask.bias (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.dcn.input_proj.weight (0.0001, 0.1033087011435927, 0.05, True)
+levels.2.blocks.7.dcn.input_proj.bias (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.dcn.output_proj.weight (0.0001, 0.1033087011435927, 0.05, True)
+levels.2.blocks.7.dcn.output_proj.bias (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.norm2.0.weight (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.norm2.0.bias (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.mlp.fc1.weight (0.0001, 0.1033087011435927, 0.05, True)
+levels.2.blocks.7.mlp.fc1.bias (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.7.mlp.fc2.weight (0.0001, 0.1033087011435927, 0.05, True)
+levels.2.blocks.7.mlp.fc2.bias (0.0001, 0.1033087011435927, 0.0, True)
+levels.2.blocks.8.gamma1 (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.gamma2 (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.norm1.0.weight (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.norm1.0.bias (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.dcn.dw_conv.0.weight (0.0001, 0.1180670870212488, 0.05, True)
+levels.2.blocks.8.dcn.dw_conv.0.bias (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.dcn.dw_conv.1.1.weight (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.dcn.dw_conv.1.1.bias (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.dcn.offset.weight (0.0001, 0.1180670870212488, 0.05, True)
+levels.2.blocks.8.dcn.offset.bias (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.dcn.mask.weight (0.0001, 0.1180670870212488, 0.05, True)
+levels.2.blocks.8.dcn.mask.bias (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.dcn.input_proj.weight (0.0001, 0.1180670870212488, 0.05, True)
+levels.2.blocks.8.dcn.input_proj.bias (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.dcn.output_proj.weight (0.0001, 0.1180670870212488, 0.05, True)
+levels.2.blocks.8.dcn.output_proj.bias (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.norm2.0.weight (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.norm2.0.bias (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.mlp.fc1.weight (0.0001, 0.1180670870212488, 0.05, True)
+levels.2.blocks.8.mlp.fc1.bias (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.8.mlp.fc2.weight (0.0001, 0.1180670870212488, 0.05, True)
+levels.2.blocks.8.mlp.fc2.bias (0.0001, 0.1180670870212488, 0.0, True)
+levels.2.blocks.9.gamma1 (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.gamma2 (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.norm1.0.weight (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.norm1.0.bias (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.dcn.dw_conv.0.weight (0.0001, 0.13493381373857005, 0.05, True)
+levels.2.blocks.9.dcn.dw_conv.0.bias (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.dcn.dw_conv.1.1.weight (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.dcn.dw_conv.1.1.bias (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.dcn.offset.weight (0.0001, 0.13493381373857005, 0.05, True)
+levels.2.blocks.9.dcn.offset.bias (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.dcn.mask.weight (0.0001, 0.13493381373857005, 0.05, True)
+levels.2.blocks.9.dcn.mask.bias (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.dcn.input_proj.weight (0.0001, 0.13493381373857005, 0.05, True)
+levels.2.blocks.9.dcn.input_proj.bias (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.dcn.output_proj.weight (0.0001, 0.13493381373857005, 0.05, True)
+levels.2.blocks.9.dcn.output_proj.bias (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.norm2.0.weight (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.norm2.0.bias (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.mlp.fc1.weight (0.0001, 0.13493381373857005, 0.05, True)
+levels.2.blocks.9.mlp.fc1.bias (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.9.mlp.fc2.weight (0.0001, 0.13493381373857005, 0.05, True)
+levels.2.blocks.9.mlp.fc2.bias (0.0001, 0.13493381373857005, 0.0, True)
+levels.2.blocks.10.gamma1 (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.gamma2 (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.norm1.0.weight (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.norm1.0.bias (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.dcn.dw_conv.0.weight (0.0001, 0.15421007284408006, 0.05, True)
+levels.2.blocks.10.dcn.dw_conv.0.bias (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.dcn.dw_conv.1.1.weight (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.dcn.dw_conv.1.1.bias (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.dcn.offset.weight (0.0001, 0.15421007284408006, 0.05, True)
+levels.2.blocks.10.dcn.offset.bias (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.dcn.mask.weight (0.0001, 0.15421007284408006, 0.05, True)
+levels.2.blocks.10.dcn.mask.bias (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.dcn.input_proj.weight (0.0001, 0.15421007284408006, 0.05, True)
+levels.2.blocks.10.dcn.input_proj.bias (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.dcn.output_proj.weight (0.0001, 0.15421007284408006, 0.05, True)
+levels.2.blocks.10.dcn.output_proj.bias (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.norm2.0.weight (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.norm2.0.bias (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.mlp.fc1.weight (0.0001, 0.15421007284408006, 0.05, True)
+levels.2.blocks.10.mlp.fc1.bias (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.10.mlp.fc2.weight (0.0001, 0.15421007284408006, 0.05, True)
+levels.2.blocks.10.mlp.fc2.bias (0.0001, 0.15421007284408006, 0.0, True)
+levels.2.blocks.11.gamma1 (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.gamma2 (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.norm1.0.weight (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.norm1.0.bias (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.dcn.dw_conv.0.weight (0.0001, 0.1762400832503772, 0.05, True)
+levels.2.blocks.11.dcn.dw_conv.0.bias (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.dcn.dw_conv.1.1.weight (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.dcn.dw_conv.1.1.bias (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.dcn.offset.weight (0.0001, 0.1762400832503772, 0.05, True)
+levels.2.blocks.11.dcn.offset.bias (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.dcn.mask.weight (0.0001, 0.1762400832503772, 0.05, True)
+levels.2.blocks.11.dcn.mask.bias (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.dcn.input_proj.weight (0.0001, 0.1762400832503772, 0.05, True)
+levels.2.blocks.11.dcn.input_proj.bias (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.dcn.output_proj.weight (0.0001, 0.1762400832503772, 0.05, True)
+levels.2.blocks.11.dcn.output_proj.bias (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.norm2.0.weight (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.norm2.0.bias (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.mlp.fc1.weight (0.0001, 0.1762400832503772, 0.05, True)
+levels.2.blocks.11.mlp.fc1.bias (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.11.mlp.fc2.weight (0.0001, 0.1762400832503772, 0.05, True)
+levels.2.blocks.11.mlp.fc2.bias (0.0001, 0.1762400832503772, 0.0, True)
+levels.2.blocks.12.gamma1 (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.gamma2 (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.norm1.0.weight (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.norm1.0.bias (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.dcn.dw_conv.0.weight (0.0001, 0.2014172380004311, 0.05, True)
+levels.2.blocks.12.dcn.dw_conv.0.bias (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.dcn.dw_conv.1.1.weight (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.dcn.dw_conv.1.1.bias (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.dcn.offset.weight (0.0001, 0.2014172380004311, 0.05, True)
+levels.2.blocks.12.dcn.offset.bias (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.dcn.mask.weight (0.0001, 0.2014172380004311, 0.05, True)
+levels.2.blocks.12.dcn.mask.bias (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.dcn.input_proj.weight (0.0001, 0.2014172380004311, 0.05, True)
+levels.2.blocks.12.dcn.input_proj.bias (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.dcn.output_proj.weight (0.0001, 0.2014172380004311, 0.05, True)
+levels.2.blocks.12.dcn.output_proj.bias (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.norm2.0.weight (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.norm2.0.bias (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.mlp.fc1.weight (0.0001, 0.2014172380004311, 0.05, True)
+levels.2.blocks.12.mlp.fc1.bias (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.12.mlp.fc2.weight (0.0001, 0.2014172380004311, 0.05, True)
+levels.2.blocks.12.mlp.fc2.bias (0.0001, 0.2014172380004311, 0.0, True)
+levels.2.blocks.13.gamma1 (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.gamma2 (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.norm1.0.weight (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.norm1.0.bias (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.dcn.dw_conv.0.weight (0.0001, 0.23019112914334983, 0.05, True)
+levels.2.blocks.13.dcn.dw_conv.0.bias (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.dcn.dw_conv.1.1.weight (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.dcn.dw_conv.1.1.bias (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.dcn.offset.weight (0.0001, 0.23019112914334983, 0.05, True)
+levels.2.blocks.13.dcn.offset.bias (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.dcn.mask.weight (0.0001, 0.23019112914334983, 0.05, True)
+levels.2.blocks.13.dcn.mask.bias (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.dcn.input_proj.weight (0.0001, 0.23019112914334983, 0.05, True)
+levels.2.blocks.13.dcn.input_proj.bias (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.dcn.output_proj.weight (0.0001, 0.23019112914334983, 0.05, True)
+levels.2.blocks.13.dcn.output_proj.bias (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.norm2.0.weight (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.norm2.0.bias (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.mlp.fc1.weight (0.0001, 0.23019112914334983, 0.05, True)
+levels.2.blocks.13.mlp.fc1.bias (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.13.mlp.fc2.weight (0.0001, 0.23019112914334983, 0.05, True)
+levels.2.blocks.13.mlp.fc2.bias (0.0001, 0.23019112914334983, 0.0, True)
+levels.2.blocks.14.gamma1 (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.gamma2 (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.norm1.0.weight (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.norm1.0.bias (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.dcn.dw_conv.0.weight (0.0001, 0.2630755761638284, 0.05, True)
+levels.2.blocks.14.dcn.dw_conv.0.bias (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.dcn.dw_conv.1.1.weight (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.dcn.dw_conv.1.1.bias (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.dcn.offset.weight (0.0001, 0.2630755761638284, 0.05, True)
+levels.2.blocks.14.dcn.offset.bias (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.dcn.mask.weight (0.0001, 0.2630755761638284, 0.05, True)
+levels.2.blocks.14.dcn.mask.bias (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.dcn.input_proj.weight (0.0001, 0.2630755761638284, 0.05, True)
+levels.2.blocks.14.dcn.input_proj.bias (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.dcn.output_proj.weight (0.0001, 0.2630755761638284, 0.05, True)
+levels.2.blocks.14.dcn.output_proj.bias (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.norm2.0.weight (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.norm2.0.bias (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.mlp.fc1.weight (0.0001, 0.2630755761638284, 0.05, True)
+levels.2.blocks.14.mlp.fc1.bias (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.14.mlp.fc2.weight (0.0001, 0.2630755761638284, 0.05, True)
+levels.2.blocks.14.mlp.fc2.bias (0.0001, 0.2630755761638284, 0.0, True)
+levels.2.blocks.15.gamma1 (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.gamma2 (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.norm1.0.weight (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.norm1.0.bias (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.dcn.dw_conv.0.weight (0.0001, 0.30065780133008957, 0.05, True)
+levels.2.blocks.15.dcn.dw_conv.0.bias (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.dcn.dw_conv.1.1.weight (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.dcn.dw_conv.1.1.bias (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.dcn.offset.weight (0.0001, 0.30065780133008957, 0.05, True)
+levels.2.blocks.15.dcn.offset.bias (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.dcn.mask.weight (0.0001, 0.30065780133008957, 0.05, True)
+levels.2.blocks.15.dcn.mask.bias (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.dcn.input_proj.weight (0.0001, 0.30065780133008957, 0.05, True)
+levels.2.blocks.15.dcn.input_proj.bias (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.dcn.output_proj.weight (0.0001, 0.30065780133008957, 0.05, True)
+levels.2.blocks.15.dcn.output_proj.bias (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.norm2.0.weight (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.norm2.0.bias (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.mlp.fc1.weight (0.0001, 0.30065780133008957, 0.05, True)
+levels.2.blocks.15.mlp.fc1.bias (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.15.mlp.fc2.weight (0.0001, 0.30065780133008957, 0.05, True)
+levels.2.blocks.15.mlp.fc2.bias (0.0001, 0.30065780133008957, 0.0, True)
+levels.2.blocks.16.gamma1 (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.gamma2 (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.norm1.0.weight (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.norm1.0.bias (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.dcn.dw_conv.0.weight (0.0001, 0.34360891580581665, 0.05, True)
+levels.2.blocks.16.dcn.dw_conv.0.bias (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.dcn.dw_conv.1.1.weight (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.dcn.dw_conv.1.1.bias (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.dcn.offset.weight (0.0001, 0.34360891580581665, 0.05, True)
+levels.2.blocks.16.dcn.offset.bias (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.dcn.mask.weight (0.0001, 0.34360891580581665, 0.05, True)
+levels.2.blocks.16.dcn.mask.bias (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.dcn.input_proj.weight (0.0001, 0.34360891580581665, 0.05, True)
+levels.2.blocks.16.dcn.input_proj.bias (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.dcn.output_proj.weight (0.0001, 0.34360891580581665, 0.05, True)
+levels.2.blocks.16.dcn.output_proj.bias (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.norm2.0.weight (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.norm2.0.bias (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.mlp.fc1.weight (0.0001, 0.34360891580581665, 0.05, True)
+levels.2.blocks.16.mlp.fc1.bias (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.16.mlp.fc2.weight (0.0001, 0.34360891580581665, 0.05, True)
+levels.2.blocks.16.mlp.fc2.bias (0.0001, 0.34360891580581665, 0.0, True)
+levels.2.blocks.17.gamma1 (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.gamma2 (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.norm1.0.weight (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.norm1.0.bias (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.dcn.dw_conv.0.weight (0.0001, 0.39269590377807617, 0.05, True)
+levels.2.blocks.17.dcn.dw_conv.0.bias (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.dcn.dw_conv.1.1.weight (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.dcn.dw_conv.1.1.bias (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.dcn.offset.weight (0.0001, 0.39269590377807617, 0.05, True)
+levels.2.blocks.17.dcn.offset.bias (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.dcn.mask.weight (0.0001, 0.39269590377807617, 0.05, True)
+levels.2.blocks.17.dcn.mask.bias (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.dcn.input_proj.weight (0.0001, 0.39269590377807617, 0.05, True)
+levels.2.blocks.17.dcn.input_proj.bias (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.dcn.output_proj.weight (0.0001, 0.39269590377807617, 0.05, True)
+levels.2.blocks.17.dcn.output_proj.bias (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.norm2.0.weight (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.norm2.0.bias (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.mlp.fc1.weight (0.0001, 0.39269590377807617, 0.05, True)
+levels.2.blocks.17.mlp.fc1.bias (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.17.mlp.fc2.weight (0.0001, 0.39269590377807617, 0.05, True)
+levels.2.blocks.17.mlp.fc2.bias (0.0001, 0.39269590377807617, 0.0, True)
+levels.2.blocks.18.gamma1 (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.gamma2 (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.norm1.0.weight (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.norm1.0.bias (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.dcn.dw_conv.0.weight (0.0001, 0.4487953186035156, 0.05, True)
+levels.2.blocks.18.dcn.dw_conv.0.bias (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.dcn.dw_conv.1.1.weight (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.dcn.dw_conv.1.1.bias (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.dcn.offset.weight (0.0001, 0.4487953186035156, 0.05, True)
+levels.2.blocks.18.dcn.offset.bias (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.dcn.mask.weight (0.0001, 0.4487953186035156, 0.05, True)
+levels.2.blocks.18.dcn.mask.bias (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.dcn.input_proj.weight (0.0001, 0.4487953186035156, 0.05, True)
+levels.2.blocks.18.dcn.input_proj.bias (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.dcn.output_proj.weight (0.0001, 0.4487953186035156, 0.05, True)
+levels.2.blocks.18.dcn.output_proj.bias (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.norm2.0.weight (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.norm2.0.bias (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.mlp.fc1.weight (0.0001, 0.4487953186035156, 0.05, True)
+levels.2.blocks.18.mlp.fc1.bias (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.18.mlp.fc2.weight (0.0001, 0.4487953186035156, 0.05, True)
+levels.2.blocks.18.mlp.fc2.bias (0.0001, 0.4487953186035156, 0.0, True)
+levels.2.blocks.19.gamma1 (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.gamma2 (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.norm1.0.weight (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.norm1.0.bias (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.dcn.dw_conv.0.weight (0.0001, 0.512908935546875, 0.05, True)
+levels.2.blocks.19.dcn.dw_conv.0.bias (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.dcn.dw_conv.1.1.weight (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.dcn.dw_conv.1.1.bias (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.dcn.offset.weight (0.0001, 0.512908935546875, 0.05, True)
+levels.2.blocks.19.dcn.offset.bias (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.dcn.mask.weight (0.0001, 0.512908935546875, 0.05, True)
+levels.2.blocks.19.dcn.mask.bias (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.dcn.input_proj.weight (0.0001, 0.512908935546875, 0.05, True)
+levels.2.blocks.19.dcn.input_proj.bias (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.dcn.output_proj.weight (0.0001, 0.512908935546875, 0.05, True)
+levels.2.blocks.19.dcn.output_proj.bias (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.norm2.0.weight (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.norm2.0.bias (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.mlp.fc1.weight (0.0001, 0.512908935546875, 0.05, True)
+levels.2.blocks.19.mlp.fc1.bias (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.19.mlp.fc2.weight (0.0001, 0.512908935546875, 0.05, True)
+levels.2.blocks.19.mlp.fc2.bias (0.0001, 0.512908935546875, 0.0, True)
+levels.2.blocks.20.gamma1 (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.gamma2 (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.norm1.0.weight (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.norm1.0.bias (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.dcn.dw_conv.0.weight (0.0001, 0.586181640625, 0.05, True)
+levels.2.blocks.20.dcn.dw_conv.0.bias (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.dcn.dw_conv.1.1.weight (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.dcn.dw_conv.1.1.bias (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.dcn.offset.weight (0.0001, 0.586181640625, 0.05, True)
+levels.2.blocks.20.dcn.offset.bias (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.dcn.mask.weight (0.0001, 0.586181640625, 0.05, True)
+levels.2.blocks.20.dcn.mask.bias (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.dcn.input_proj.weight (0.0001, 0.586181640625, 0.05, True)
+levels.2.blocks.20.dcn.input_proj.bias (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.dcn.output_proj.weight (0.0001, 0.586181640625, 0.05, True)
+levels.2.blocks.20.dcn.output_proj.bias (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.norm2.0.weight (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.norm2.0.bias (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.mlp.fc1.weight (0.0001, 0.586181640625, 0.05, True)
+levels.2.blocks.20.mlp.fc1.bias (0.0001, 0.586181640625, 0.0, True)
+levels.2.blocks.20.mlp.fc2.weight (0.0001, 0.586181640625, 0.05, True)
+levels.2.blocks.20.mlp.fc2.bias (0.0001, 0.586181640625, 0.0, True)
+levels.2.downsample.conv.weight (0.0001, 0.669921875, 0.05, True)
+levels.2.downsample.norm.1.weight (0.0001, 0.669921875, 0.0, True)
+levels.2.downsample.norm.1.bias (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.gamma1 (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.gamma2 (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.norm1.0.weight (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.norm1.0.bias (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.dcn.dw_conv.0.weight (0.0001, 0.669921875, 0.05, True)
+levels.3.blocks.0.dcn.dw_conv.0.bias (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.dcn.dw_conv.1.1.weight (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.dcn.dw_conv.1.1.bias (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.dcn.offset.weight (0.0001, 0.669921875, 0.05, True)
+levels.3.blocks.0.dcn.offset.bias (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.dcn.mask.weight (0.0001, 0.669921875, 0.05, True)
+levels.3.blocks.0.dcn.mask.bias (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.dcn.input_proj.weight (0.0001, 0.669921875, 0.05, True)
+levels.3.blocks.0.dcn.input_proj.bias (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.dcn.output_proj.weight (0.0001, 0.669921875, 0.05, True)
+levels.3.blocks.0.dcn.output_proj.bias (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.norm2.0.weight (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.norm2.0.bias (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.mlp.fc1.weight (0.0001, 0.669921875, 0.05, True)
+levels.3.blocks.0.mlp.fc1.bias (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.0.mlp.fc2.weight (0.0001, 0.669921875, 0.05, True)
+levels.3.blocks.0.mlp.fc2.bias (0.0001, 0.669921875, 0.0, True)
+levels.3.blocks.1.gamma1 (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.gamma2 (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.norm1.0.weight (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.norm1.0.bias (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.dcn.dw_conv.0.weight (0.0001, 0.765625, 0.05, True)
+levels.3.blocks.1.dcn.dw_conv.0.bias (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.dcn.dw_conv.1.1.weight (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.dcn.dw_conv.1.1.bias (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.dcn.offset.weight (0.0001, 0.765625, 0.05, True)
+levels.3.blocks.1.dcn.offset.bias (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.dcn.mask.weight (0.0001, 0.765625, 0.05, True)
+levels.3.blocks.1.dcn.mask.bias (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.dcn.input_proj.weight (0.0001, 0.765625, 0.05, True)
+levels.3.blocks.1.dcn.input_proj.bias (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.dcn.output_proj.weight (0.0001, 0.765625, 0.05, True)
+levels.3.blocks.1.dcn.output_proj.bias (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.norm2.0.weight (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.norm2.0.bias (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.mlp.fc1.weight (0.0001, 0.765625, 0.05, True)
+levels.3.blocks.1.mlp.fc1.bias (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.1.mlp.fc2.weight (0.0001, 0.765625, 0.05, True)
+levels.3.blocks.1.mlp.fc2.bias (0.0001, 0.765625, 0.0, True)
+levels.3.blocks.2.gamma1 (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.gamma2 (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.norm1.0.weight (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.norm1.0.bias (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.dcn.dw_conv.0.weight (0.0001, 0.875, 0.05, True)
+levels.3.blocks.2.dcn.dw_conv.0.bias (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.dcn.dw_conv.1.1.weight (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.dcn.dw_conv.1.1.bias (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.dcn.offset.weight (0.0001, 0.875, 0.05, True)
+levels.3.blocks.2.dcn.offset.bias (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.dcn.mask.weight (0.0001, 0.875, 0.05, True)
+levels.3.blocks.2.dcn.mask.bias (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.dcn.input_proj.weight (0.0001, 0.875, 0.05, True)
+levels.3.blocks.2.dcn.input_proj.bias (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.dcn.output_proj.weight (0.0001, 0.875, 0.05, True)
+levels.3.blocks.2.dcn.output_proj.bias (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.norm2.0.weight (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.norm2.0.bias (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.mlp.fc1.weight (0.0001, 0.875, 0.05, True)
+levels.3.blocks.2.mlp.fc1.bias (0.0001, 0.875, 0.0, True)
+levels.3.blocks.2.mlp.fc2.weight (0.0001, 0.875, 0.05, True)
+levels.3.blocks.2.mlp.fc2.bias (0.0001, 0.875, 0.0, True)
+levels.3.blocks.3.gamma1 (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.gamma2 (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.norm1.0.weight (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.norm1.0.bias (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.dcn.dw_conv.0.weight (0.0001, 1.0, 0.05, True)
+levels.3.blocks.3.dcn.dw_conv.0.bias (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.dcn.dw_conv.1.1.weight (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.dcn.dw_conv.1.1.bias (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.dcn.offset.weight (0.0001, 1.0, 0.05, True)
+levels.3.blocks.3.dcn.offset.bias (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.dcn.mask.weight (0.0001, 1.0, 0.05, True)
+levels.3.blocks.3.dcn.mask.bias (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.dcn.input_proj.weight (0.0001, 1.0, 0.05, True)
+levels.3.blocks.3.dcn.input_proj.bias (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.dcn.output_proj.weight (0.0001, 1.0, 0.05, True)
+levels.3.blocks.3.dcn.output_proj.bias (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.norm2.0.weight (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.norm2.0.bias (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.mlp.fc1.weight (0.0001, 1.0, 0.05, True)
+levels.3.blocks.3.mlp.fc1.bias (0.0001, 1.0, 0.0, True)
+levels.3.blocks.3.mlp.fc2.weight (0.0001, 1.0, 0.05, True)
+levels.3.blocks.3.mlp.fc2.bias (0.0001, 1.0, 0.0, True)
+conv_head.0.weight (0.0001, None, 0.05, True)
+conv_head.1.0.weight (0.0001, None, 0.0, True)
+conv_head.1.0.bias (0.0001, None, 0.0, True)
+head.weight (0.0001, None, 0.05, True)
+head.bias (0.0001, None, 0.0, True)
+/scratch/smehta90/InternImage_MIMIC/classification/utils.py:410: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  self._scaler = torch.cuda.amp.GradScaler()
+[2025-11-18 11:51:55 internimage_b_mimic_cxr_224](main.py 214): INFO Using native Torch AMP. Training in mixed precision.
+[2025-11-18 11:51:55 internimage_b_mimic_cxr_224](main.py 226): INFO using fp16_compress_hook!
+[2025-11-18 11:51:55 internimage_b_mimic_cxr_224](main.py 234): INFO number of params: 96135662
+[2025-11-18 11:51:55 internimage_b_mimic_cxr_224](main.py 247): INFO Using BCEWithLogitsLoss for multi-label classification
+All checkpoints founded in output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224: []
+[2025-11-18 11:51:55 internimage_b_mimic_cxr_224](main.py 272): INFO no checkpoint found in output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224, ignoring auto resume
+[2025-11-18 11:51:55 internimage_b_mimic_cxr_224](utils.py 123): INFO ==============> Loading weight pretrained/internimage_b_1k_224.pth for fine-tuning......
+[2025-11-18 11:51:57 internimage_b_mimic_cxr_224](utils.py 249): WARNING Error in loading classifier head, re-init classifier head to 0
+[2025-11-18 11:51:57 internimage_b_mimic_cxr_224](utils.py 284): WARNING _IncompatibleKeys(missing_keys=['head.weight', 'head.bias'], unexpected_keys=[])
+[2025-11-18 11:51:57 internimage_b_mimic_cxr_224](utils.py 289): INFO => loaded successfully pretrained/internimage_b_1k_224.pth
+[2025-11-18 11:52:41 internimage_b_mimic_cxr_224](utils_multilabel.py 77): INFO Test: [0/24]	Time 43.257 (43.257)	Loss 0.6931 (0.6931)	Mem 3828MB
+[2025-11-18 11:54:18 internimage_b_mimic_cxr_224](utils_multilabel.py 141): INFO  * Mean AUC-ROC 0.4875 Loss 0.6931
+[2025-11-18 11:54:18 internimage_b_mimic_cxr_224](utils_multilabel.py 142): INFO  * Per-class AUC-ROC: ['0.4878', '0.4540', '0.5052', '0.4769', '0.5129', '0.4502', '0.5290', '0.5204', '0.4037', '0.4951', '0.4143', '0.5102', '0.4550', '0.6110']
+[2025-11-18 11:54:18 internimage_b_mimic_cxr_224](main.py 296): INFO AUC-ROC of the network on the 2991 val images: 0.4875
+Using EMA with decay = 0.99990000
+[2025-11-18 11:54:18 internimage_b_mimic_cxr_224](main.py 331): INFO Start training
+/scratch/smehta90/InternImage_MIMIC/classification/main.py:483: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp_autocast(dtype=amp_type):
+/scratch/smehta90/InternImage_MIMIC/classification/main.py:530: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp_autocast(dtype=amp_type):
+/home/smehta90/.conda/envs/INTERNIMAGE_ENV/lib/python3.12/site-packages/torch/autograd/graph.py:841: UserWarning: Grad strides do not match bucket view strides. This may indicate grad was not created according to the gradient layout contract, or that the param's strides changed since DDP was constructed.  This is not an error, but may impair performance.
+grad.sizes() = [1344, 896, 1, 1], strides() = [896, 1, 896, 896]
+bucket_view.sizes() = [1344, 896, 1, 1], strides() = [896, 1, 1, 1] (Triggered internally at /pytorch/torch/csrc/distributed/c10d/reducer.cpp:334.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+[2025-11-18 11:55:41 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][0/2882]	eta 2 days, 17:47:59 lr 0.000000	time 82.1928 (82.1928)	model_time 18.4820 (18.4820)	loss 0.6931 (0.6931)	grad_norm 0.4588 (0.4588/0.0000)	mem 33516MB
+Error loading image /scratch/aalla4/shared_folder/MIMIC/files/p14/p14755254/s57056175/73cd10ac-6033f8db-7b32e2a8-01506ab1-068192fe.jpg: [Errno 13] Permission denied: '/scratch/aalla4/shared_folder/MIMIC/files/p14/p14755254/s57056175/73cd10ac-6033f8db-7b32e2a8-01506ab1-068192fe.jpg'
+[2025-11-18 12:01:02 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][50/2882]	eta 6:13:41 lr 0.000001	time 6.0570 (7.9171)	model_time 0.6278 (0.9821)	loss 0.6906 (0.6921)	grad_norm 0.4748 (0.4693/0.0109)	mem 34628MB
+[2025-11-18 12:05:59 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][100/2882]	eta 5:21:38 lr 0.000001	time 0.6440 (6.9369)	model_time 0.6437 (0.8091)	loss 0.6846 (0.6900)	grad_norm 0.5156 (0.4795/0.0152)	mem 34629MB
+Error loading image /scratch/aalla4/shared_folder/MIMIC/files/p13/p13692794/s59700179/3e3c90ec-40f735f2-deec6e24-46e2cfe3-a981490b.jpg: [Errno 13] Permission denied: '/scratch/aalla4/shared_folder/MIMIC/files/p13/p13692794/s59700179/3e3c90ec-40f735f2-deec6e24-46e2cfe3-a981490b.jpg'
+[2025-11-18 12:10:46 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][150/2882]	eta 4:57:39 lr 0.000001	time 0.6311 (6.5373)	model_time 0.6308 (0.7506)	loss 0.6746 (0.6868)	grad_norm 0.5469 (0.4930/0.0252)	mem 34629MB
+[2025-11-18 12:16:11 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][200/2882]	eta 4:51:56 lr 0.000001	time 34.5294 (6.5313)	model_time 0.6409 (0.7226)	loss 0.6599 (0.6821)	grad_norm 0.5614 (0.5080/0.0350)	mem 34629MB
+[2025-11-18 12:21:18 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][250/2882]	eta 4:43:06 lr 0.000001	time 0.6372 (6.4540)	model_time 0.6370 (0.7055)	loss 0.6336 (0.6753)	grad_norm 0.6456 (0.5299/0.0571)	mem 34629MB
+[2025-11-18 12:26:48 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][300/2882]	eta 4:38:44 lr 0.000001	time 0.6528 (6.4773)	model_time 0.6523 (0.6956)	loss 0.6048 (0.6663)	grad_norm 0.7212 (0.5542/0.0816)	mem 34629MB
+[2025-11-18 12:31:52 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][350/2882]	eta 4:30:59 lr 0.000001	time 2.3458 (6.4218)	model_time 0.6265 (0.6879)	loss 0.5676 (0.6554)	grad_norm 0.6534 (0.6017/0.1570)	mem 34629MB
+[2025-11-18 12:37:35 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][400/2882]	eta 4:27:50 lr 0.000001	time 43.7513 (6.4748)	model_time 0.6310 (0.6808)	loss 0.5361 (0.6424)	grad_norm 0.6149 (0.6418/0.1595)	mem 34630MB
+[2025-11-18 12:42:48 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][450/2882]	eta 4:21:32 lr 0.000001	time 0.6327 (6.4524)	model_time 0.6324 (0.6754)	loss 0.4892 (0.6275)	grad_norm 0.7222 (0.6776/0.1555)	mem 34630MB
+[2025-11-18 12:47:17 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][500/2882]	eta 4:11:51 lr 0.000001	time 0.6323 (6.3439)	model_time 0.6320 (0.6713)	loss 0.4601 (0.6116)	grad_norm 0.5965 (0.7028/0.1509)	mem 34631MB
+[2025-11-18 12:51:56 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][550/2882]	eta 4:03:54 lr 0.000001	time 6.3895 (6.2754)	model_time 0.6401 (0.6686)	loss 0.4025 (0.5955)	grad_norm 0.8001 (0.7084/0.1510)	mem 34631MB
+[2025-11-18 12:56:53 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][600/2882]	eta 3:57:37 lr 0.000001	time 19.8867 (6.2478)	model_time 0.6343 (0.6663)	loss 0.4091 (0.5800)	grad_norm 0.5150 (0.6966/0.1575)	mem 34631MB
+[2025-11-18 13:01:45 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][650/2882]	eta 3:51:12 lr 0.000001	time 23.1510 (6.2155)	model_time 0.6435 (0.6647)	loss 0.3692 (0.5652)	grad_norm 0.4922 (0.6659/0.1144)	mem 34631MB
+[2025-11-18 13:06:12 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][700/2882]	eta 3:43:46 lr 0.000001	time 0.6384 (6.1534)	model_time 0.6380 (0.6630)	loss 0.3806 (0.5512)	grad_norm 0.6417 (0.6373/0.1196)	mem 34631MB
+Error loading image /scratch/aalla4/shared_folder/MIMIC/files/p14/p14064974/s53204465/166b0526-1791b559-e7e0b5bd-279d2c23-7c997ae1.jpg: [Errno 13] Permission denied: '/scratch/aalla4/shared_folder/MIMIC/files/p14/p14064974/s53204465/166b0526-1791b559-e7e0b5bd-279d2c23-7c997ae1.jpg'
+[2025-11-18 13:10:49 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][750/2882]	eta 3:37:11 lr 0.000001	time 0.6478 (6.1125)	model_time 0.6475 (0.6612)	loss 0.3559 (0.5380)	grad_norm 1.1323 (0.6017/0.1241)	mem 34631MB
+[2025-11-18 13:15:01 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][800/2882]	eta 3:29:47 lr 0.000001	time 0.6407 (6.0458)	model_time 0.6404 (0.6598)	loss 0.3492 (0.5260)	grad_norm 0.4353 (0.5761/0.1271)	mem 34631MB
+[2025-11-18 13:19:38 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][850/2882]	eta 3:23:44 lr 0.000001	time 23.7267 (6.0158)	model_time 0.6341 (0.6586)	loss 0.3270 (0.5150)	grad_norm 0.7811 (0.5581/0.1303)	mem 34631MB
+[2025-11-18 13:23:30 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][900/2882]	eta 3:16:11 lr 0.000001	time 0.6368 (5.9394)	model_time 0.6365 (0.6577)	loss 0.3182 (0.5050)	grad_norm 0.5486 (0.5419/0.1428)	mem 34631MB
+[2025-11-18 13:27:38 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][950/2882]	eta 3:09:35 lr 0.000001	time 15.0845 (5.8878)	model_time 0.6311 (0.6566)	loss 0.3367 (0.4955)	grad_norm 0.8101 (0.5357/0.1495)	mem 34631MB
+Error loading image /scratch/aalla4/shared_folder/MIMIC/files/p15/p15570051/s55401413/9a8f6a80-430c8b00-49cfa607-abb0bb7b-e840b480.jpg: [Errno 13] Permission denied: '/scratch/aalla4/shared_folder/MIMIC/files/p15/p15570051/s55401413/9a8f6a80-430c8b00-49cfa607-abb0bb7b-e840b480.jpg'
+[2025-11-18 13:31:40 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1000/2882]	eta 3:03:03 lr 0.000001	time 0.6319 (5.8361)	model_time 0.6317 (0.6554)	loss 0.3158 (0.4869)	grad_norm 0.3810 (0.5347/0.1576)	mem 34631MB
+[2025-11-18 13:35:50 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1050/2882]	eta 2:56:59 lr 0.000001	time 8.0038 (5.7964)	model_time 0.6347 (0.6541)	loss 0.3304 (0.4787)	grad_norm 0.4145 (0.5393/0.1656)	mem 34631MB
+[2025-11-18 13:39:49 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1100/2882]	eta 2:50:46 lr 0.000001	time 2.3094 (5.7501)	model_time 0.6381 (0.6534)	loss 0.3130 (0.4712)	grad_norm 0.3554 (0.5393/0.1703)	mem 34631MB
+[2025-11-18 13:44:12 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1150/2882]	eta 2:45:22 lr 0.000001	time 16.8895 (5.7288)	model_time 0.6345 (0.6527)	loss 0.3275 (0.4642)	grad_norm 0.7164 (0.5388/0.1754)	mem 34631MB
+[2025-11-18 13:47:55 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1200/2882]	eta 2:39:06 lr 0.000001	time 0.6431 (5.6759)	model_time 0.6427 (0.6522)	loss 0.3094 (0.4578)	grad_norm 0.5530 (0.5411/0.1708)	mem 34631MB
+[2025-11-18 13:52:12 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1250/2882]	eta 2:33:48 lr 0.000001	time 11.8243 (5.6546)	model_time 0.6384 (0.6516)	loss 0.2974 (0.4517)	grad_norm 0.2892 (0.5382/0.1722)	mem 34631MB
+[2025-11-18 13:56:53 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1300/2882]	eta 2:29:03 lr 0.000001	time 20.5604 (5.6531)	model_time 0.6497 (0.6513)	loss 0.2932 (0.4459)	grad_norm 0.5907 (0.5361/0.1730)	mem 34631MB
+[2025-11-18 14:01:32 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1350/2882]	eta 2:24:15 lr 0.000001	time 13.0755 (5.6500)	model_time 0.6373 (0.6508)	loss 0.3150 (0.4405)	grad_norm 0.7302 (0.5400/0.1703)	mem 34631MB
+[2025-11-18 14:06:12 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1400/2882]	eta 2:19:31 lr 0.000001	time 0.6328 (5.6488)	model_time 0.6324 (0.6503)	loss 0.2906 (0.4351)	grad_norm 0.4554 (0.5326/0.1616)	mem 34631MB
+[2025-11-18 14:10:50 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1450/2882]	eta 2:14:44 lr 0.000001	time 0.6422 (5.6453)	model_time 0.6419 (0.6501)	loss 0.2730 (0.4302)	grad_norm 0.3822 (0.5479/0.1685)	mem 34631MB
+[2025-11-18 14:16:04 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1500/2882]	eta 2:10:31 lr 0.000001	time 20.9769 (5.6665)	model_time 0.6462 (0.6497)	loss 0.2883 (0.4256)	grad_norm 0.7719 (0.5612/0.1664)	mem 34631MB
+Error loading image /scratch/aalla4/shared_folder/MIMIC/files/p14/p14280310/s56920231/e9a7b16f-a2cbb1f8-5ba2fc13-a83319b0-6268fdff.jpg: [Errno 13] Permission denied: '/scratch/aalla4/shared_folder/MIMIC/files/p14/p14280310/s56920231/e9a7b16f-a2cbb1f8-5ba2fc13-a83319b0-6268fdff.jpg'
+[2025-11-18 14:20:50 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1550/2882]	eta 2:05:50 lr 0.000001	time 17.9663 (5.6687)	model_time 0.6383 (0.6493)	loss 0.2820 (0.4211)	grad_norm 0.8666 (0.5829/0.1763)	mem 34631MB
+[2025-11-18 14:25:10 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1600/2882]	eta 2:00:48 lr 0.000001	time 0.6324 (5.6540)	model_time 0.6321 (0.6489)	loss 0.2806 (0.4168)	grad_norm 0.6792 (0.5932/0.1789)	mem 34632MB
+[2025-11-18 14:30:03 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1650/2882]	eta 1:56:13 lr 0.000001	time 16.6551 (5.6602)	model_time 0.6295 (0.6485)	loss 0.2976 (0.4127)	grad_norm 0.6655 (0.6001/0.1766)	mem 34632MB
+[2025-11-18 14:35:52 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1700/2882]	eta 1:52:16 lr 0.000001	time 24.7794 (5.6989)	model_time 0.6359 (0.6479)	loss 0.2939 (0.4089)	grad_norm 1.0478 (0.6222/0.1815)	mem 34632MB
+[2025-11-18 14:41:26 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1750/2882]	eta 1:48:02 lr 0.000001	time 0.6273 (5.7265)	model_time 0.6270 (0.6475)	loss 0.2764 (0.4052)	grad_norm 0.7786 (0.6251/0.1852)	mem 34632MB
+[2025-11-18 14:46:03 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1800/2882]	eta 1:43:10 lr 0.000001	time 0.6290 (5.7213)	model_time 0.6288 (0.6470)	loss 0.2437 (0.4016)	grad_norm 0.4887 (0.6329/0.1964)	mem 34632MB
+[2025-11-18 14:52:07 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1850/2882]	eta 1:39:08 lr 0.000001	time 21.8841 (5.7637)	model_time 0.6570 (0.6467)	loss 0.2805 (0.3983)	grad_norm 0.6480 (0.6407/0.1931)	mem 34632MB
+[2025-11-18 14:57:38 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1900/2882]	eta 1:34:41 lr 0.000001	time 16.7748 (5.7860)	model_time 0.6337 (0.6467)	loss 0.2746 (0.3950)	grad_norm 0.4365 (0.6454/0.1879)	mem 34632MB
+[2025-11-18 15:02:12 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][1950/2882]	eta 1:29:45 lr 0.000001	time 0.6410 (5.7784)	model_time 0.6407 (0.6464)	loss 0.2847 (0.3921)	grad_norm 1.1891 (0.6631/0.1989)	mem 34632MB
+[2025-11-18 15:07:13 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2000/2882]	eta 1:25:01 lr 0.000001	time 0.6385 (5.7843)	model_time 0.6381 (0.6463)	loss 0.2803 (0.3892)	grad_norm 0.6858 (0.6615/0.1975)	mem 34632MB
+[2025-11-18 15:12:38 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2050/2882]	eta 1:20:27 lr 0.000001	time 37.0063 (5.8017)	model_time 0.6262 (0.6461)	loss 0.2666 (0.3865)	grad_norm 0.4660 (0.6669/0.2044)	mem 34632MB
+[2025-11-18 15:17:09 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2100/2882]	eta 1:15:29 lr 0.000001	time 5.6778 (5.7926)	model_time 0.6486 (0.6458)	loss 0.2670 (0.3838)	grad_norm 0.5695 (0.6717/0.2049)	mem 34632MB
+[2025-11-18 15:21:34 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2150/2882]	eta 1:10:32 lr 0.000001	time 19.3587 (5.7815)	model_time 0.6403 (0.6455)	loss 0.2654 (0.3812)	grad_norm 0.7550 (0.6762/0.2098)	mem 34632MB
+[2025-11-18 15:26:01 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2200/2882]	eta 1:05:35 lr 0.000001	time 0.6448 (5.7711)	model_time 0.6445 (0.6454)	loss 0.2578 (0.3788)	grad_norm 0.4207 (0.6806/0.2092)	mem 34632MB
+[2025-11-18 15:30:42 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2250/2882]	eta 1:00:45 lr 0.000001	time 33.5719 (5.7681)	model_time 0.6279 (0.6453)	loss 0.2816 (0.3765)	grad_norm 1.1243 (0.6819/0.2048)	mem 34632MB
+[2025-11-18 15:34:57 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2300/2882]	eta 0:55:48 lr 0.000001	time 0.6280 (5.7533)	model_time 0.6278 (0.6451)	loss 0.2868 (0.3742)	grad_norm 0.8205 (0.6963/0.2056)	mem 34632MB
+[2025-11-18 15:39:34 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2350/2882]	eta 0:50:58 lr 0.000001	time 7.5534 (5.7487)	model_time 0.6231 (0.6447)	loss 0.2426 (0.3721)	grad_norm 0.6639 (0.6930/0.2059)	mem 34632MB
+[2025-11-18 15:44:01 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2400/2882]	eta 0:46:06 lr 0.000001	time 0.6335 (5.7404)	model_time 0.6332 (0.6447)	loss 0.2521 (0.3699)	grad_norm 0.6751 (0.6939/0.2124)	mem 34632MB
+[2025-11-18 15:48:49 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2450/2882]	eta 0:41:20 lr 0.000001	time 16.8670 (5.7409)	model_time 0.6380 (0.6445)	loss 0.2609 (0.3679)	grad_norm 0.6785 (0.6884/0.2070)	mem 34632MB
+[2025-11-18 15:54:05 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2500/2882]	eta 0:36:37 lr 0.000001	time 0.6256 (5.7523)	model_time 0.6253 (0.6442)	loss 0.2645 (0.3660)	grad_norm 0.7194 (0.6911/0.2080)	mem 34632MB
+[2025-11-18 15:59:39 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2550/2882]	eta 0:31:55 lr 0.000001	time 45.4244 (5.7705)	model_time 0.6366 (0.6439)	loss 0.2809 (0.3641)	grad_norm 0.5595 (0.6780/0.2088)	mem 34632MB
+[2025-11-18 16:05:29 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2600/2882]	eta 0:27:13 lr 0.000001	time 0.6253 (5.7942)	model_time 0.6251 (0.6437)	loss 0.2689 (0.3623)	grad_norm 0.8334 (0.6761/0.2083)	mem 34632MB
+[2025-11-18 16:11:02 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2650/2882]	eta 0:22:27 lr 0.000001	time 7.4587 (5.8103)	model_time 0.6276 (0.6434)	loss 0.2805 (0.3605)	grad_norm 0.9558 (0.6765/0.2010)	mem 34632MB
+[2025-11-18 16:16:01 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2700/2882]	eta 0:17:38 lr 0.000001	time 0.6293 (5.8136)	model_time 0.6291 (0.6431)	loss 0.2941 (0.3589)	grad_norm 0.7820 (0.6841/0.1899)	mem 34632MB
+[2025-11-18 16:21:50 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2750/2882]	eta 0:12:50 lr 0.000001	time 39.6836 (5.8347)	model_time 0.6412 (0.6431)	loss 0.2512 (0.3573)	grad_norm 0.5621 (0.6864/0.1907)	mem 34632MB
+[2025-11-18 16:26:58 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2800/2882]	eta 0:07:58 lr 0.000001	time 0.6332 (5.8406)	model_time 0.6327 (0.6430)	loss 0.2892 (0.3556)	grad_norm 0.8904 (0.6904/0.1910)	mem 34632MB
+[2025-11-18 16:31:50 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [0/20][2850/2882]	eta 0:03:06 lr 0.000001	time 8.7367 (5.8407)	model_time 0.6351 (0.6430)	loss 0.3106 (0.3541)	grad_norm 1.2754 (0.7024/0.1968)	mem 34632MB
+[2025-11-18 16:34:55 internimage_b_mimic_cxr_224](main.py 583): INFO EPOCH 0 training takes 4:40:36
+[2025-11-18 16:34:55 internimage_b_mimic_cxr_224](utils.py 359): INFO output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_0.pth saving......
+[2025-11-18 16:34:57 internimage_b_mimic_cxr_224](utils.py 361): INFO output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_0.pth saved !!!
+[2025-11-18 16:35:50 internimage_b_mimic_cxr_224](utils_multilabel.py 77): INFO Test: [0/24]	Time 53.070 (53.070)	Loss 0.2873 (0.2873)	Mem 34632MB
+[2025-11-18 16:37:36 internimage_b_mimic_cxr_224](utils_multilabel.py 138): INFO [Epoch:0] * Mean AUC-ROC 0.7218 Loss 0.2656
+[2025-11-18 16:37:36 internimage_b_mimic_cxr_224](utils_multilabel.py 139): INFO [Epoch:0] * Per-class AUC-ROC: ['0.7452', '0.7322', '0.7381', '0.8399', '0.6497', '0.5513', '0.6393', '0.6974', '0.8251', '0.8421', '0.6662', '0.6637', '0.6431', '0.8721']
+[2025-11-18 16:37:36 internimage_b_mimic_cxr_224](main.py 365): INFO AUC-ROC of the network on the 2991 val images: 0.7218
+[2025-11-18 16:37:36 internimage_b_mimic_cxr_224](utils.py 359): INFO output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_best.pth saving......
+[2025-11-18 16:37:38 internimage_b_mimic_cxr_224](utils.py 361): INFO output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_best.pth saved !!!
+[2025-11-18 16:37:38 internimage_b_mimic_cxr_224](main.py 380): INFO Max AUC-ROC: 0.7218
+[2025-11-18 16:37:49 internimage_b_mimic_cxr_224](utils_multilabel.py 77): INFO Test: [0/24]	Time 10.859 (10.859)	Loss 0.6124 (0.6124)	Mem 34632MB
+[2025-11-18 16:38:10 internimage_b_mimic_cxr_224](utils_multilabel.py 138): INFO [Epoch:0] * Mean AUC-ROC 0.6071 Loss 0.6046
+[2025-11-18 16:38:10 internimage_b_mimic_cxr_224](utils_multilabel.py 139): INFO [Epoch:0] * Per-class AUC-ROC: ['0.6154', '0.5910', '0.6193', '0.6704', '0.5310', '0.4932', '0.5345', '0.6144', '0.7451', '0.6779', '0.5571', '0.5362', '0.5380', '0.7756']
+[2025-11-18 16:38:10 internimage_b_mimic_cxr_224](main.py 385): INFO AUC-ROC of the ema network on the 2991 val images: 0.6071
+[2025-11-18 16:38:10 internimage_b_mimic_cxr_224](utils.py 359): INFO output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_ema_best.pth saving......
+[2025-11-18 16:38:13 internimage_b_mimic_cxr_224](utils.py 361): INFO output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_ema_best.pth saved !!!
+[2025-11-18 16:38:13 internimage_b_mimic_cxr_224](main.py 400): INFO Max ema AUC-ROC: 0.6071
+/scratch/smehta90/InternImage_MIMIC/classification/main.py:483: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp_autocast(dtype=amp_type):
+/scratch/smehta90/InternImage_MIMIC/classification/main.py:530: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp_autocast(dtype=amp_type):
+[2025-11-18 16:39:01 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][0/2882]	eta 1 day, 14:22:06 lr 0.000001	time 47.9271 (47.9271)	model_time 0.6292 (0.6292)	loss 0.2811 (0.2811)	grad_norm 1.0274 (1.0274/0.0000)	mem 34632MB
+[2025-11-18 16:44:03 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][50/2882]	eta 5:23:34 lr 0.000001	time 0.6337 (6.8555)	model_time 0.6334 (0.6330)	loss 0.2600 (0.2641)	grad_norm 0.5197 (0.7464/0.2108)	mem 34632MB
+[2025-11-18 16:49:10 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][100/2882]	eta 5:01:44 lr 0.000001	time 6.8685 (6.5077)	model_time 0.6422 (0.6319)	loss 0.2416 (0.2671)	grad_norm 0.7406 (0.7292/0.2047)	mem 34632MB
+Error loading image /scratch/aalla4/shared_folder/MIMIC/files/p14/p14755254/s57056175/73cd10ac-6033f8db-7b32e2a8-01506ab1-068192fe.jpg: [Errno 13] Permission denied: '/scratch/aalla4/shared_folder/MIMIC/files/p14/p14755254/s57056175/73cd10ac-6033f8db-7b32e2a8-01506ab1-068192fe.jpg'
+[2025-11-18 16:54:11 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][150/2882]	eta 4:48:58 lr 0.000001	time 0.6526 (6.3463)	model_time 0.6522 (0.6353)	loss 0.2958 (0.2667)	grad_norm 0.8544 (0.7273/0.2059)	mem 34632MB
+[2025-11-18 16:59:44 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][200/2882]	eta 4:47:03 lr 0.000001	time 0.6337 (6.4219)	model_time 0.6335 (0.6361)	loss 0.2659 (0.2663)	grad_norm 0.7110 (0.7348/0.2012)	mem 34632MB
+[2025-11-18 17:05:39 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][250/2882]	eta 4:47:38 lr 0.000001	time 0.6371 (6.5572)	model_time 0.6368 (0.6375)	loss 0.3023 (0.2660)	grad_norm 1.0911 (0.7355/0.2020)	mem 34632MB
+[2025-11-18 17:11:15 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][300/2882]	eta 4:43:18 lr 0.000001	time 6.2137 (6.5837)	model_time 0.6305 (0.6378)	loss 0.2586 (0.2662)	grad_norm 0.8473 (0.7308/0.2040)	mem 34632MB
+[2025-11-18 17:16:41 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][350/2882]	eta 4:37:32 lr 0.000001	time 0.6275 (6.5768)	model_time 0.6272 (0.6369)	loss 0.2710 (0.2658)	grad_norm 0.7049 (0.7327/0.2027)	mem 34632MB
+[2025-11-18 17:22:56 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][400/2882]	eta 4:36:50 lr 0.000001	time 0.6393 (6.6923)	model_time 0.6390 (0.6369)	loss 0.2506 (0.2653)	grad_norm 0.5578 (0.7454/0.2083)	mem 34632MB
+[2025-11-18 17:29:05 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][450/2882]	eta 4:34:19 lr 0.000001	time 0.6296 (6.7681)	model_time 0.6294 (0.6361)	loss 0.2878 (0.2651)	grad_norm 0.6937 (0.7451/0.2042)	mem 34632MB
+[2025-11-18 17:34:56 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][500/2882]	eta 4:29:37 lr 0.000001	time 15.2385 (6.7917)	model_time 0.6548 (0.6368)	loss 0.2422 (0.2650)	grad_norm 0.9284 (0.7437/0.2037)	mem 34632MB
+[2025-11-18 17:40:20 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][550/2882]	eta 4:22:55 lr 0.000001	time 0.6493 (6.7648)	model_time 0.6490 (0.6376)	loss 0.2655 (0.2646)	grad_norm 0.6434 (0.7536/0.2007)	mem 34632MB
+[2025-11-18 17:45:47 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][600/2882]	eta 4:16:31 lr 0.000001	time 0.6349 (6.7449)	model_time 0.6347 (0.6379)	loss 0.2362 (0.2643)	grad_norm 1.2564 (0.7635/0.1936)	mem 34632MB
+[2025-11-18 17:51:55 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][650/2882]	eta 4:12:43 lr 0.000001	time 3.7219 (6.7935)	model_time 0.6425 (0.6382)	loss 0.2737 (0.2640)	grad_norm 0.8933 (0.7653/0.1903)	mem 34632MB
+[2025-11-18 17:57:19 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][700/2882]	eta 4:06:14 lr 0.000001	time 0.6383 (6.7710)	model_time 0.6379 (0.6388)	loss 0.2698 (0.2638)	grad_norm 0.9843 (0.7557/0.1819)	mem 34632MB
+[2025-11-18 18:03:28 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][750/2882]	eta 4:02:00 lr 0.000001	time 0.6409 (6.8110)	model_time 0.6404 (0.6390)	loss 0.2593 (0.2636)	grad_norm 0.6478 (0.7659/0.1957)	mem 34632MB
+[2025-11-18 18:09:00 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][800/2882]	eta 3:55:59 lr 0.000001	time 0.6522 (6.8009)	model_time 0.6520 (0.6393)	loss 0.2797 (0.2638)	grad_norm 0.7358 (0.7702/0.2005)	mem 34632MB
+[2025-11-18 18:15:42 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][850/2882]	eta 3:52:45 lr 0.000001	time 26.4676 (6.8729)	model_time 0.6477 (0.6396)	loss 0.2484 (0.2637)	grad_norm 0.8960 (0.7651/0.1943)	mem 34632MB
+[2025-11-18 18:21:52 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][900/2882]	eta 3:48:00 lr 0.000001	time 0.6499 (6.9023)	model_time 0.6495 (0.6401)	loss 0.2746 (0.2633)	grad_norm 0.7818 (0.7663/0.2015)	mem 34632MB
+[2025-11-18 18:27:35 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][950/2882]	eta 3:42:11 lr 0.000001	time 0.6420 (6.9006)	model_time 0.6416 (0.6405)	loss 0.2689 (0.2633)	grad_norm 0.7655 (0.7732/0.2055)	mem 34632MB
+[2025-11-18 18:33:03 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1000/2882]	eta 3:35:55 lr 0.000001	time 0.6367 (6.8837)	model_time 0.6364 (0.6409)	loss 0.2905 (0.2630)	grad_norm 0.9313 (0.7815/0.2121)	mem 34632MB
+Error loading image /scratch/aalla4/shared_folder/MIMIC/files/p13/p13692794/s59700179/3e3c90ec-40f735f2-deec6e24-46e2cfe3-a981490b.jpg: [Errno 13] Permission denied: '/scratch/aalla4/shared_folder/MIMIC/files/p13/p13692794/s59700179/3e3c90ec-40f735f2-deec6e24-46e2cfe3-a981490b.jpg'
+[2025-11-18 18:39:19 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1050/2882]	eta 3:31:05 lr 0.000001	time 44.3506 (6.9134)	model_time 0.6461 (0.6414)	loss 0.2484 (0.2629)	grad_norm 0.6405 (0.7801/0.2040)	mem 34632MB
+[2025-11-18 18:44:54 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1100/2882]	eta 3:25:02 lr 0.000001	time 0.6397 (6.9039)	model_time 0.6394 (0.6415)	loss 0.2526 (0.2629)	grad_norm 0.5421 (0.7881/0.1999)	mem 34632MB
+[2025-11-18 18:50:14 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1150/2882]	eta 3:18:39 lr 0.000001	time 0.6361 (6.8818)	model_time 0.6359 (0.6417)	loss 0.2773 (0.2627)	grad_norm 1.0572 (0.7875/0.2088)	mem 34632MB
+[2025-11-18 18:56:03 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1200/2882]	eta 3:13:02 lr 0.000001	time 0.6348 (6.8860)	model_time 0.6346 (0.6418)	loss 0.2428 (0.2625)	grad_norm 0.6523 (0.7867/0.1997)	mem 34632MB
+[2025-11-18 19:02:44 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1250/2882]	eta 3:08:31 lr 0.000001	time 57.2772 (6.9312)	model_time 0.6367 (0.6421)	loss 0.2736 (0.2623)	grad_norm 1.0460 (0.7939/0.2075)	mem 34632MB
+[2025-11-18 19:09:05 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1300/2882]	eta 3:03:27 lr 0.000001	time 0.6468 (6.9579)	model_time 0.6464 (0.6421)	loss 0.2627 (0.2621)	grad_norm 0.7680 (0.7890/0.2007)	mem 34632MB
+[2025-11-18 19:14:58 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1350/2882]	eta 2:57:45 lr 0.000001	time 0.6498 (6.9615)	model_time 0.6495 (0.6422)	loss 0.2563 (0.2619)	grad_norm 0.7181 (0.7838/0.1986)	mem 34632MB
+[2025-11-18 19:20:45 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1400/2882]	eta 2:51:56 lr 0.000001	time 0.6375 (6.9611)	model_time 0.6372 (0.6423)	loss 0.2362 (0.2617)	grad_norm 0.5699 (0.7808/0.2043)	mem 34632MB
+[2025-11-18 19:27:36 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1450/2882]	eta 2:47:10 lr 0.000001	time 52.8428 (7.0043)	model_time 0.6426 (0.6420)	loss 0.2266 (0.2615)	grad_norm 0.9980 (0.7915/0.2081)	mem 34632MB
+[2025-11-18 19:33:07 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1500/2882]	eta 2:41:01 lr 0.000001	time 0.6318 (6.9911)	model_time 0.6315 (0.6417)	loss 0.2713 (0.2614)	grad_norm 0.5658 (0.7955/0.2204)	mem 34632MB
+[2025-11-18 19:38:29 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1550/2882]	eta 2:34:48 lr 0.000001	time 0.6269 (6.9735)	model_time 0.6265 (0.6413)	loss 0.2574 (0.2612)	grad_norm 0.6389 (0.7838/0.2122)	mem 34632MB
+[2025-11-18 19:43:43 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1600/2882]	eta 2:28:32 lr 0.000001	time 0.6366 (6.9518)	model_time 0.6363 (0.6411)	loss 0.2432 (0.2610)	grad_norm 0.3934 (0.7888/0.2141)	mem 34632MB
+[2025-11-18 19:49:28 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1650/2882]	eta 2:22:42 lr 0.000001	time 47.4602 (6.9502)	model_time 0.6306 (0.6408)	loss 0.2605 (0.2608)	grad_norm 0.7920 (0.7933/0.2196)	mem 34632MB
+[2025-11-18 19:54:50 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1700/2882]	eta 2:16:37 lr 0.000001	time 0.6384 (6.9354)	model_time 0.6381 (0.6406)	loss 0.2586 (0.2607)	grad_norm 0.5224 (0.8012/0.2255)	mem 34632MB
+[2025-11-18 19:59:39 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1750/2882]	eta 2:10:13 lr 0.000001	time 0.6326 (6.9026)	model_time 0.6323 (0.6403)	loss 0.2578 (0.2605)	grad_norm 0.9986 (0.8031/0.2305)	mem 34632MB
+[2025-11-18 20:04:49 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1800/2882]	eta 2:04:07 lr 0.000001	time 0.6301 (6.8831)	model_time 0.6298 (0.6400)	loss 0.2659 (0.2604)	grad_norm 0.7716 (0.8062/0.2332)	mem 34632MB
+[2025-11-18 20:10:50 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1850/2882]	eta 1:58:32 lr 0.000001	time 39.3632 (6.8919)	model_time 0.6269 (0.6398)	loss 0.2233 (0.2602)	grad_norm 0.7760 (0.8120/0.2315)	mem 34632MB
+[2025-11-18 20:15:49 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1900/2882]	eta 1:52:24 lr 0.000001	time 0.6295 (6.8682)	model_time 0.6292 (0.6396)	loss 0.2462 (0.2600)	grad_norm 0.8015 (0.8208/0.2328)	mem 34632MB
+[2025-11-18 20:20:46 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][1950/2882]	eta 1:46:18 lr 0.000001	time 0.6456 (6.8444)	model_time 0.6452 (0.6397)	loss 0.2563 (0.2600)	grad_norm 0.7983 (0.8302/0.2253)	mem 34632MB
+[2025-11-18 20:25:55 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2000/2882]	eta 1:40:22 lr 0.000001	time 0.6310 (6.8279)	model_time 0.6307 (0.6396)	loss 0.2553 (0.2598)	grad_norm 0.7754 (0.8234/0.2163)	mem 34632MB
+[2025-11-18 20:31:37 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2050/2882]	eta 1:34:40 lr 0.000001	time 45.5787 (6.8279)	model_time 0.6307 (0.6394)	loss 0.2585 (0.2597)	grad_norm 0.9799 (0.8213/0.2070)	mem 34632MB
+[2025-11-18 20:36:32 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2100/2882]	eta 1:28:42 lr 0.000001	time 0.6262 (6.8057)	model_time 0.6260 (0.6392)	loss 0.2480 (0.2595)	grad_norm 0.9231 (0.8243/0.2044)	mem 34643MB
+[2025-11-18 20:41:18 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2150/2882]	eta 1:22:43 lr 0.000001	time 0.6271 (6.7807)	model_time 0.6267 (0.6390)	loss 0.2543 (0.2595)	grad_norm 0.6199 (0.8320/0.2096)	mem 34643MB
+[2025-11-18 20:46:03 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2200/2882]	eta 1:16:47 lr 0.000001	time 0.6349 (6.7558)	model_time 0.6346 (0.6389)	loss 0.2484 (0.2594)	grad_norm 1.1877 (0.8308/0.2091)	mem 34643MB
+[2025-11-18 20:51:58 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2250/2882]	eta 1:11:14 lr 0.000001	time 41.6484 (6.7638)	model_time 0.6327 (0.6387)	loss 0.2487 (0.2593)	grad_norm 0.9695 (0.8283/0.2122)	mem 34643MB
+[2025-11-18 20:57:00 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2300/2882]	eta 1:05:27 lr 0.000001	time 0.6400 (6.7478)	model_time 0.6397 (0.6387)	loss 0.2547 (0.2591)	grad_norm 0.7776 (0.8317/0.2114)	mem 34643MB
+[2025-11-18 21:02:04 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2350/2882]	eta 0:59:42 lr 0.000001	time 0.6451 (6.7336)	model_time 0.6447 (0.6389)	loss 0.2262 (0.2590)	grad_norm 0.8760 (0.8407/0.2092)	mem 34643MB
+[2025-11-18 21:07:14 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2400/2882]	eta 0:54:00 lr 0.000001	time 0.6440 (6.7226)	model_time 0.6436 (0.6391)	loss 0.2600 (0.2588)	grad_norm 0.8664 (0.8391/0.2030)	mem 34643MB
+[2025-11-18 21:12:38 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2450/2882]	eta 0:48:22 lr 0.000001	time 41.7797 (6.7179)	model_time 0.6374 (0.6393)	loss 0.2655 (0.2588)	grad_norm 1.3765 (0.8315/0.2060)	mem 34643MB
+[2025-11-18 21:17:45 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2500/2882]	eta 0:42:41 lr 0.000001	time 0.6414 (6.7061)	model_time 0.6412 (0.6394)	loss 0.2828 (0.2587)	grad_norm 0.8074 (0.8314/0.2115)	mem 34643MB
+[2025-11-18 21:22:10 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2550/2882]	eta 0:36:57 lr 0.000001	time 0.6382 (6.6788)	model_time 0.6378 (0.6396)	loss 0.2920 (0.2585)	grad_norm 1.0281 (0.8421/0.2205)	mem 34643MB
+[2025-11-18 21:27:06 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2600/2882]	eta 0:31:19 lr 0.000001	time 0.6391 (6.6640)	model_time 0.6387 (0.6396)	loss 0.2553 (0.2584)	grad_norm 0.8847 (0.8470/0.2249)	mem 34643MB
+[2025-11-18 21:32:21 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2650/2882]	eta 0:25:44 lr 0.000001	time 42.0579 (6.6570)	model_time 0.6427 (0.6398)	loss 0.2586 (0.2583)	grad_norm 0.6853 (0.8503/0.2305)	mem 34643MB
+[2025-11-18 21:36:57 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2700/2882]	eta 0:20:07 lr 0.000001	time 0.6314 (6.6361)	model_time 0.6311 (0.6397)	loss 0.2560 (0.2581)	grad_norm 0.6595 (0.8489/0.2324)	mem 34643MB
+[2025-11-18 21:41:53 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2750/2882]	eta 0:14:34 lr 0.000001	time 0.6316 (6.6231)	model_time 0.6314 (0.6396)	loss 0.2665 (0.2580)	grad_norm 1.0048 (0.8523/0.2327)	mem 34643MB
+Error loading image /scratch/aalla4/shared_folder/MIMIC/files/p14/p14064974/s53204465/166b0526-1791b559-e7e0b5bd-279d2c23-7c997ae1.jpg: [Errno 13] Permission denied: '/scratch/aalla4/shared_folder/MIMIC/files/p14/p14064974/s53204465/166b0526-1791b559-e7e0b5bd-279d2c23-7c997ae1.jpg'
+Error loading image /scratch/aalla4/shared_folder/MIMIC/files/p15/p15570051/s55401413/9a8f6a80-430c8b00-49cfa607-abb0bb7b-e840b480.jpg: [Errno 13] Permission denied: '/scratch/aalla4/shared_folder/MIMIC/files/p15/p15570051/s55401413/9a8f6a80-430c8b00-49cfa607-abb0bb7b-e840b480.jpg'
+[2025-11-18 21:46:16 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2800/2882]	eta 0:09:01 lr 0.000001	time 0.6300 (6.5988)	model_time 0.6297 (0.6394)	loss 0.2563 (0.2579)	grad_norm 0.6057 (0.8561/0.2301)	mem 34643MB
+Error loading image /scratch/aalla4/shared_folder/MIMIC/files/p14/p14280310/s56920231/e9a7b16f-a2cbb1f8-5ba2fc13-a83319b0-6268fdff.jpg: [Errno 13] Permission denied: '/scratch/aalla4/shared_folder/MIMIC/files/p14/p14280310/s56920231/e9a7b16f-a2cbb1f8-5ba2fc13-a83319b0-6268fdff.jpg'
+[2025-11-18 21:51:40 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [1/20][2850/2882]	eta 0:03:31 lr 0.000001	time 55.6688 (6.5965)	model_time 0.6307 (0.6393)	loss 0.2198 (0.2577)	grad_norm 0.7660 (0.8480/0.2218)	mem 34643MB
+[2025-11-18 21:53:47 internimage_b_mimic_cxr_224](main.py 583): INFO EPOCH 1 training takes 5:15:34
+[2025-11-18 21:53:47 internimage_b_mimic_cxr_224](utils.py 359): INFO output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_1.pth saving......
+[2025-11-18 21:53:49 internimage_b_mimic_cxr_224](utils.py 361): INFO output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_1.pth saved !!!
+[2025-11-18 21:54:30 internimage_b_mimic_cxr_224](utils_multilabel.py 77): INFO Test: [0/24]	Time 39.983 (39.983)	Loss 0.2850 (0.2850)	Mem 34643MB
+[2025-11-18 21:55:52 internimage_b_mimic_cxr_224](utils_multilabel.py 138): INFO [Epoch:1] * Mean AUC-ROC 0.7640 Loss 0.2478
+[2025-11-18 21:55:52 internimage_b_mimic_cxr_224](utils_multilabel.py 139): INFO [Epoch:1] * Per-class AUC-ROC: ['0.8065', '0.7917', '0.7718', '0.8881', '0.6979', '0.5621', '0.6628', '0.7247', '0.8409', '0.8988', '0.6852', '0.7169', '0.7489', '0.8997']
+[2025-11-18 21:55:52 internimage_b_mimic_cxr_224](main.py 365): INFO AUC-ROC of the network on the 2991 val images: 0.7640
+[2025-11-18 21:55:52 internimage_b_mimic_cxr_224](utils.py 359): INFO output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_best.pth saving......
+[2025-11-18 21:55:54 internimage_b_mimic_cxr_224](utils.py 361): INFO output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_best.pth saved !!!
+[2025-11-18 21:55:54 internimage_b_mimic_cxr_224](main.py 380): INFO Max AUC-ROC: 0.7640
+[2025-11-18 21:56:05 internimage_b_mimic_cxr_224](utils_multilabel.py 77): INFO Test: [0/24]	Time 10.590 (10.590)	Loss 0.4714 (0.4714)	Mem 34643MB
+[2025-11-18 21:56:28 internimage_b_mimic_cxr_224](utils_multilabel.py 138): INFO [Epoch:1] * Mean AUC-ROC 0.6757 Loss 0.4496
+[2025-11-18 21:56:28 internimage_b_mimic_cxr_224](utils_multilabel.py 139): INFO [Epoch:1] * Per-class AUC-ROC: ['0.7060', '0.7052', '0.7025', '0.8033', '0.6157', '0.4255', '0.6111', '0.6759', '0.7917', '0.7843', '0.6070', '0.5901', '0.5978', '0.8441']
+[2025-11-18 21:56:28 internimage_b_mimic_cxr_224](main.py 385): INFO AUC-ROC of the ema network on the 2991 val images: 0.6757
+[2025-11-18 21:56:28 internimage_b_mimic_cxr_224](utils.py 359): INFO output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_ema_best.pth saving......
+[2025-11-18 21:56:32 internimage_b_mimic_cxr_224](utils.py 361): INFO output/mimic_cxr/internimage_b/internimage_b_mimic_cxr_224/ckpt_epoch_ema_best.pth saved !!!
+[2025-11-18 21:56:32 internimage_b_mimic_cxr_224](main.py 400): INFO Max ema AUC-ROC: 0.6757
+/scratch/smehta90/InternImage_MIMIC/classification/main.py:483: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp_autocast(dtype=amp_type):
+/scratch/smehta90/InternImage_MIMIC/classification/main.py:530: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp_autocast(dtype=amp_type):
+[2025-11-18 21:57:17 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][0/2882]	eta 1 day, 11:54:26 lr 0.000001	time 44.8530 (44.8530)	model_time 0.6378 (0.6378)	loss 0.2656 (0.2656)	grad_norm 1.0962 (1.0962/0.0000)	mem 34643MB
+[2025-11-18 22:02:19 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][50/2882]	eta 5:21:24 lr 0.000001	time 0.7639 (6.8094)	model_time 0.7637 (0.6331)	loss 0.2371 (0.2483)	grad_norm 0.8238 (0.8622/0.2150)	mem 34643MB
+[2025-11-18 22:06:22 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][100/2882]	eta 4:30:40 lr 0.000001	time 0.6391 (5.8378)	model_time 0.6388 (0.6341)	loss 0.2699 (0.2476)	grad_norm 0.7351 (0.8583/0.2443)	mem 34643MB
+[2025-11-18 22:11:07 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][150/2882]	eta 4:23:54 lr 0.000001	time 0.6417 (5.7959)	model_time 0.6412 (0.6373)	loss 0.2435 (0.2476)	grad_norm 1.1046 (0.8614/0.2329)	mem 34643MB
+[2025-11-18 22:15:59 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][200/2882]	eta 4:19:28 lr 0.000001	time 30.0720 (5.8048)	model_time 0.6285 (0.6382)	loss 0.2609 (0.2484)	grad_norm 1.2473 (0.8583/0.2287)	mem 34643MB
+[2025-11-18 22:20:14 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][250/2882]	eta 4:08:33 lr 0.000001	time 0.6258 (5.6664)	model_time 0.6257 (0.6363)	loss 0.2559 (0.2487)	grad_norm 0.6926 (0.8596/0.2299)	mem 34643MB
+[2025-11-18 22:24:29 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][300/2882]	eta 3:59:46 lr 0.000001	time 9.2996 (5.5720)	model_time 0.6398 (0.6354)	loss 0.2425 (0.2495)	grad_norm 0.9111 (0.8544/0.2254)	mem 34643MB
+[2025-11-18 22:28:46 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][350/2882]	eta 3:52:30 lr 0.000001	time 0.6342 (5.5096)	model_time 0.6338 (0.6372)	loss 0.2774 (0.2494)	grad_norm 1.0061 (0.8439/0.2215)	mem 34643MB
+[2025-11-18 22:33:19 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][400/2882]	eta 3:47:40 lr 0.000001	time 18.9446 (5.5038)	model_time 0.6423 (0.6377)	loss 0.2869 (0.2490)	grad_norm 0.7719 (0.8275/0.2109)	mem 34643MB
+[2025-11-18 22:38:20 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][450/2882]	eta 3:45:22 lr 0.000001	time 0.6336 (5.5602)	model_time 0.6333 (0.6382)	loss 0.2225 (0.2492)	grad_norm 1.0027 (0.8388/0.2204)	mem 34643MB
+[2025-11-18 22:42:28 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][500/2882]	eta 3:38:23 lr 0.000001	time 0.6301 (5.5012)	model_time 0.6297 (0.6380)	loss 0.2381 (0.2492)	grad_norm 0.5508 (0.8233/0.2234)	mem 34643MB
+[2025-11-18 22:46:41 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][550/2882]	eta 3:32:14 lr 0.000001	time 0.6385 (5.4606)	model_time 0.6380 (0.6381)	loss 0.2310 (0.2490)	grad_norm 1.4041 (0.8249/0.2255)	mem 34643MB
+[2025-11-18 22:51:29 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][600/2882]	eta 3:28:37 lr 0.000001	time 0.6388 (5.4854)	model_time 0.6385 (0.6381)	loss 0.2430 (0.2488)	grad_norm 0.7179 (0.8195/0.2299)	mem 34643MB
+Error loading image /scratch/aalla4/shared_folder/MIMIC/files/p13/p13692794/s59700179/3e3c90ec-40f735f2-deec6e24-46e2cfe3-a981490b.jpg: [Errno 13] Permission denied: '/scratch/aalla4/shared_folder/MIMIC/files/p13/p13692794/s59700179/3e3c90ec-40f735f2-deec6e24-46e2cfe3-a981490b.jpg'
+[2025-11-18 22:56:26 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][650/2882]	eta 3:25:21 lr 0.000001	time 31.2317 (5.5204)	model_time 0.6348 (0.6380)	loss 0.2549 (0.2489)	grad_norm 0.7031 (0.8252/0.2328)	mem 34643MB
+[2025-11-18 23:00:39 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][700/2882]	eta 3:19:33 lr 0.000001	time 0.6284 (5.4876)	model_time 0.6281 (0.6376)	loss 0.2618 (0.2490)	grad_norm 0.9089 (0.8366/0.2319)	mem 34643MB
+[2025-11-18 23:04:53 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][750/2882]	eta 3:14:01 lr 0.000001	time 0.6437 (5.4604)	model_time 0.6433 (0.6377)	loss 0.2492 (0.2492)	grad_norm 0.6175 (0.8249/0.2302)	mem 34643MB
+[2025-11-18 23:08:42 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][800/2882]	eta 3:07:35 lr 0.000001	time 0.6361 (5.4061)	model_time 0.6357 (0.6380)	loss 0.2431 (0.2490)	grad_norm 0.8001 (0.8352/0.2315)	mem 34643MB
+[2025-11-18 23:13:19 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][850/2882]	eta 3:03:20 lr 0.000001	time 19.8280 (5.4138)	model_time 0.6259 (0.6386)	loss 0.2389 (0.2489)	grad_norm 1.0019 (0.8254/0.2265)	mem 34643MB
+[2025-11-18 23:17:48 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][900/2882]	eta 2:58:46 lr 0.000001	time 0.6292 (5.4119)	model_time 0.6289 (0.6383)	loss 0.2235 (0.2490)	grad_norm 0.8532 (0.8327/0.2304)	mem 34643MB
+[2025-11-18 23:21:46 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][950/2882]	eta 2:53:09 lr 0.000001	time 0.6319 (5.3777)	model_time 0.6316 (0.6380)	loss 0.2501 (0.2489)	grad_norm 0.9838 (0.8327/0.2365)	mem 34643MB
+[2025-11-18 23:25:55 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][1000/2882]	eta 2:48:03 lr 0.000001	time 0.6392 (5.3580)	model_time 0.6389 (0.6378)	loss 0.2709 (0.2490)	grad_norm 0.5554 (0.8365/0.2420)	mem 34643MB
+[2025-11-18 23:30:42 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][1050/2882]	eta 2:44:08 lr 0.000001	time 27.9858 (5.3759)	model_time 0.6557 (0.6380)	loss 0.2655 (0.2488)	grad_norm 0.8973 (0.8346/0.2385)	mem 34643MB
+Error loading image /scratch/aalla4/shared_folder/MIMIC/files/p14/p14755254/s57056175/73cd10ac-6033f8db-7b32e2a8-01506ab1-068192fe.jpg: [Errno 13] Permission denied: '/scratch/aalla4/shared_folder/MIMIC/files/p14/p14755254/s57056175/73cd10ac-6033f8db-7b32e2a8-01506ab1-068192fe.jpg'
+[2025-11-18 23:34:31 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][1100/2882]	eta 2:38:35 lr 0.000001	time 0.6293 (5.3397)	model_time 0.6290 (0.6379)	loss 0.2742 (0.2489)	grad_norm 0.7692 (0.8408/0.2348)	mem 34643MB
+[2025-11-18 23:38:24 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][1150/2882]	eta 2:33:16 lr 0.000001	time 0.6330 (5.3098)	model_time 0.6328 (0.6376)	loss 0.2263 (0.2488)	grad_norm 1.3557 (0.8501/0.2420)	mem 34643MB
+[2025-11-18 23:42:35 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][1200/2882]	eta 2:28:31 lr 0.000001	time 0.6294 (5.2982)	model_time 0.6291 (0.6374)	loss 0.2549 (0.2488)	grad_norm 0.8818 (0.8542/0.2344)	mem 34643MB
+[2025-11-18 23:47:01 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][1250/2882]	eta 2:24:08 lr 0.000001	time 32.9631 (5.2991)	model_time 0.6331 (0.6370)	loss 0.2430 (0.2488)	grad_norm 0.8811 (0.8672/0.2317)	mem 34643MB
+[2025-11-18 23:50:49 internimage_b_mimic_cxr_224](main.py 574): INFO Train: [2/20][1300/2882]	eta 2:18:57 lr 0.000001	time 0.6287 (5.2703)	model_time 0.6284 (0.6368)	loss 0.2475 (0.2488)	grad_norm 1.0143 (0.8765/0.2311)	mem 34643MB
